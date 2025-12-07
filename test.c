@@ -10,10 +10,33 @@
 #define ARR_LENGTH 20
 #define MAX_NUM 10
 
+void screenSize() {
+  int height;
+  int width;
+
+  getmaxyx(stdscr, height, width);
+
+  mvprintw(2, 0, "Screenwidth: %d", width);
+  mvprintw(3, 0, "Screenheigth: %d", height);
+
+  refresh();  
+}
+
+void readInput() {
+  char inp[100];
+  mvprintw(4, 0, "Input: ");
+  getnstr(inp, 100);
+
+  mvprintw(5, 0, "Output: %s", inp);
+
+  refresh();
+}
+
+
 int main (void) {
-  initscr();
-  cbreak();
-  noecho();
+  initscr(); //initialise ncurses
+  clear(); //delete everything on screen
+  cbreak(); //deactivates line buffering (read input without waiting for enter)
 
   int arr[ARR_LENGTH];
 
@@ -27,11 +50,11 @@ int main (void) {
   }
 
   mvaddstr(10, 30, "press any key to quit");
+
+  screenSize();
+  readInput();
   
-  
-  
-  
-  refresh();
+  refresh(); //operations by stdscr() only then visible, for windows: wrefresch(window)
   getch();
   endwin();
   return 0;
