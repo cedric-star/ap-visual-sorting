@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-#include "structures.h"
+#include "ui/ui.h"
 
 
 void simpelSort(List* list) {
@@ -22,6 +22,7 @@ void simpelSort(List* list) {
             usleep(10000);
             list->index = i;
         }
+        
     }
     list->isFinished = true;
 }

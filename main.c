@@ -7,7 +7,7 @@
 #include "raylib.h"
 
 
-#include "structures.h"
+#include "ui/ui.h"
 #include "sortAlgorithms.h"
 
 
@@ -34,19 +34,7 @@ int findMax(int ar[], int length) {
     return maxValue;
 }
 
-void drawOutline(Box box, int thickness, Color c) {
-    //oben
-    DrawRectangle(box.x, box.y, box.width, thickness, c);
 
-    //links
-    DrawRectangle(box.x, box.y, thickness, box.height, c);
-   
-    //untent
-    DrawRectangle(box.x, box.height-thickness, box.width, box.height, c);
-    
-    //rechts
-    DrawRectangle(box.x + box.width - thickness, box.y, thickness, box.height, c);
-}
 
 
 
@@ -56,12 +44,13 @@ void* myThread(void* arg) {
     simpelSort(list);
 }
 
-void createDiagram(Box box, List* list) {
+void createDiagram(Rectangle box, List* list) {
     int len = list->absLength;
     if (len <= 0) return;
     
     int barWidth = box.width / len;
     int maxValue = findMax(list->nums, len);  // Maximum berechnen
+
     
     for(int i = 0; i < len; i++) {
         int barHeight = (list->nums[i] * box.height) / maxValue;
@@ -71,15 +60,16 @@ void createDiagram(Box box, List* list) {
         
         
         if (i == list->index) {
-            DrawRectangle(x, y, barWidth, barHeight, RED);
+            DrawRectangle(x, y, barWidth-1, barHeight, RED);
         } else {
-            DrawRectangle(x, y, barWidth, barHeight, LIGHTGRAY);
+            DrawRectangle(x, y, barWidth-1, barHeight, LIGHTGRAY);
         }
 
         if (list->isFinished) {
-            DrawRectangle(x, y, barWidth, barHeight, GRAY);
+            DrawRectangle(x, y, barWidth-1, barHeight, GRAY);
             //usleep(timeStep); //animation so aufsteigende balken noch machen
         }
+
     }
 
     drawOutline(box, 4, PINK);
@@ -113,16 +103,20 @@ int main(void) {
     pthread_create(&thread1, NULL, myThread, &list);
     //simpelSort(nums, num);
 
+
+    Rectangle btn = {10, 10, 110, 40};
+
     while (!WindowShouldClose()) 
     {
         BeginDrawing();
         
         sWidth = GetScreenWidth();
         sHeight = GetScreenHeight();
-        Box b = {0, 0, sWidth, sHeight};
         ClearBackground(BLACK);
-        createDiagram(b, &list);
+
+        drawChooseUI(sWidth, sHeight);
         
+
         EndDrawing();
     }
 

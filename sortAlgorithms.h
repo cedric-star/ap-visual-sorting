@@ -2,7 +2,7 @@
 #ifndef SORTING_ALGORITHMS_H
 #define SORTING_ALGORITHMS_H
 
-#include "structures.h"
+#include "ui/ui.h"
 
 
 
