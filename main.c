@@ -2,30 +2,23 @@
 #include <stdlib.h>
 #include <unistd.h> 
 #include <time.h>
+#include <stdbool.h>
 #include <pthread.h>
 #include "raylib.h"
 
 
+#include "structures.h"
+#include "sortAlgorithms.h"
+
+
 #define defaultWidth 1200
 #define defaultHeight 800
-#define timeStep 10000
-#define mass 60
+#define timeStep 1000
+#define mass 100
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 
-typedef struct {
-    int x;
-    int y;
-    int width;
-    int height;
-} Box;
 
-typedef struct {
-    int dynLength;
-    int absLength;
-    int *nums;
-    int index;
-    bool isFinished;
-} List;
+
 
 int myRanNum() {
     return (rand() % mass + 1);
@@ -56,26 +49,7 @@ void drawOutline(Box box, int thickness, Color c) {
 }
 
 
-void simpelSort(List* list) {
-    int swapped = 1;
-    while (swapped && list->dynLength-- > 0)
-    {  
-        swapped = 0;
-        for(int i=0; i<list->dynLength; ++i)
-        {
-            if(list->nums[i] > list->nums[i+1])
-            {
-                int temp = list->nums[i];
-                list->nums[i] = list->nums[i+1];
-                list->nums[i+1] = temp;
-                swapped = 1;
-            }
-            usleep(timeStep);
-            list->index = i;
-        }
-    }
-    list->isFinished = true;
-}
+
 
 void* myThread(void* arg) {
     List* list = (List*) arg;
@@ -112,7 +86,7 @@ void createDiagram(Box box, List* list) {
 }
 
 int main(void) {
-    printf("1");
+    printf("starting...");
     int sWidth = defaultWidth;
     int sHeight = defaultHeight;
 
@@ -152,8 +126,9 @@ int main(void) {
         EndDrawing();
     }
 
-    //pthread_join(thread1, NULL);
+    pthread_join(thread1, NULL);
     free(nums);
     CloseWindow();
+    printf("stopping...");
     return 0;
 }
