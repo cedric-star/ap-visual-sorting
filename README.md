@@ -10,4 +10,6 @@ gcc test.c -o test -lncurses && ./test
 
 ## Hilfe
 - https://openbook.rheinwerk-verlag.de/linux_unix_programmierung/Kap13-002.htm
-
+- https://www.raylib.com/examples.html
+- https://www.raylib.com/cheatsheet/cheatsheet.html
+- https://www.geeksforgeeks.org/c/multithreading-in-c/
