@@ -100,11 +100,16 @@ int main(void) {
     InitWindow(sWidth, sHeight, "Diagramm Beispiel");
     SetTargetFPS(60); 
 
+    
     pthread_create(&thread1, NULL, myThread, &list);
-    //simpelSort(nums, num);
 
 
-    Rectangle btn = {10, 10, 110, 40};
+    
+
+    //0 = chooser window
+    //1 = sorting window 
+    //2 = ergebnis window
+    int toDraw = 0;
 
     while (!WindowShouldClose()) 
     {
@@ -114,10 +119,22 @@ int main(void) {
         sHeight = GetScreenHeight();
         ClearBackground(BLACK);
 
-        drawChooseUI(sWidth, sHeight);
+        switch (toDraw) {
+        case 0: drawChooseUI(sWidth, sHeight, &toDraw); break;
+        case 1: 
+            Rectangle dia = {0, 0, sWidth, sHeight};
+            createDiagram(dia, &list);
+
+
+
+        }
         
 
+
+        //createDiagram(dia, &list);
         EndDrawing();
+
+        
     }
 
     pthread_join(thread1, NULL);

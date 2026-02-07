@@ -10,9 +10,28 @@ void drawOptChooser(int w, int h) {
     drawOutline(rec, 4, LIGHTGRAY);
 }
 
+void drawStartButton(int w, int h, int* toDraw) {
+    int btnWidth = (int) w / 10; 
+    int btnHeight = (int) h / 20;
+    int btnX = w - btnWidth - 20;  
+    int btnY = h - btnHeight - 20; 
+    
+    Rectangle btn = {btnX, btnY, btnWidth, btnHeight};
 
-void drawChooseUI(int w, int h) {
+    bool isPressed = false;
+    drawButton(btn, "start", LIGHTGRAY, &isPressed);
+    if (isPressed) {
+        *toDraw = 1;
+    }
+
+    
+
+}
+
+
+void drawChooseUI(int w, int h, int* toDraw) {
     drawSortChooser(w, h);
     drawOptChooser(w, h);
+    drawStartButton(w, h, toDraw);
 }
 

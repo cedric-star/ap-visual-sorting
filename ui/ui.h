@@ -19,11 +19,11 @@ typedef struct {
 } Button;
 
 
-void drawButton(Rectangle box, char* text, Color c);
+void drawButton(Rectangle box, char* text, Color c, bool* isPressed);
 void drawOutline(Rectangle box, int thickness, Color c);
 
-void drawChooseUI(int w, int h);
-//void drawChooseUI(int w, int h);
+void drawChooseUI(int w, int h, int* toDraw);
+
 
 
 #endif
