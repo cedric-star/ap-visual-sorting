@@ -8,7 +8,8 @@
 
 
 #include "ui/ui.h"
-#include "sortAlgorithms.h"
+#include "core/core.h"
+//#include "sortAlgorithms.h"
 
 
 #define defaultWidth 1200
@@ -20,9 +21,7 @@
 
 
 
-int myRanNum() {
-    return (rand() % mass + 1);
-}
+
 
 int findMax(int ar[], int length) {
     int maxValue = 0;
@@ -82,14 +81,14 @@ int main(void) {
 
     int num = mass;
     int *nums = calloc(num, sizeof(int));
+
+    setAllDisctinctRanNums(nums, mass);
+
     pthread_t thread1;
     List list;
     
     
-    for (int i = 0; i < num; i++) {
-        nums[i] = myRanNum();
-        printf("%d, ", nums[i]);
-    }
+
     list.dynLength = num;
     list.absLength = num;
     list.nums = nums;

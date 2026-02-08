@@ -1,5 +1,5 @@
 LDFLAGS = -lraylib
-SRC = main.c ui/widgets/structures.c sortAlgorithms.c ui/widgets/button.c ui/chooseUI.c
+SRC = main.c ui/widgets/structures.c core/sortAlgorithms.c ui/widgets/button.c ui/chooseUI.c core/ranNums.c
 
 
 all: MySorter

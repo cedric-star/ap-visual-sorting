@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdbool.h>
 
-#include "ui/ui.h"
+#include "core.h"
 
 
 void simpelSort(List* list) {
