@@ -16,6 +16,7 @@ void drawButton(Rectangle box, char* text, Color c, bool* isPressed);
 void drawOutline(Rectangle box, int thickness, Color c);
 void drawChooseUI(int w, int h, int* toDraw);
 void createDiagram(Rectangle box, List* list);
+void drawInputField(Rectangle box, char* input, int* letterCount, Color c);
 
 
 

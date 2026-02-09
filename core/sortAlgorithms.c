@@ -21,8 +21,9 @@ void simpelSort(List* list) {
             }
             
             list->index = i;
+            usleep(100000);
         }
-        usleep(10000);
+        
     }
     list->isFinished = true;
 }
