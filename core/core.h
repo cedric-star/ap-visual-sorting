@@ -20,12 +20,12 @@ typedef struct {
 
     char* name;
     long time;
-    long accsesses; //listenzugriffe
+    long accesses; //listenzugriffe
     long repeats; //iterationen / rekursionen
     //speichernutzung / allokationen
     //cpu auslastung
 
-    bool corect; //ist sortierung korekt?
+    bool correct; //ist sortierung korekt?
     bool stable; //ändert algorithmus reihenfolge gleicher elemente
 
 
