@@ -15,7 +15,7 @@
 #define defaultWidth 1200
 #define defaultHeight 800
 #define timeStep 1000
-#define mass 100
+#define mass 500
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 
@@ -59,13 +59,13 @@ void createDiagram(Rectangle box, List* list) {
         
         
         if (i == list->index) {
-            DrawRectangle(x, y, barWidth-1, barHeight, RED);
+            DrawRectangle(x, y, barWidth, barHeight, RED);
         } else {
-            DrawRectangle(x, y, barWidth-1, barHeight, LIGHTGRAY);
+            DrawRectangle(x, y, barWidth, barHeight, LIGHTGRAY);
         }
 
         if (list->isFinished) {
-            DrawRectangle(x, y, barWidth-1, barHeight, GRAY);
+            DrawRectangle(x, y, barWidth, barHeight, GRAY);
             //usleep(timeStep); //animation so aufsteigende balken noch machen
         }
 

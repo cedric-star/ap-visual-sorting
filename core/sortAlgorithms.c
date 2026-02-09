@@ -19,7 +19,7 @@ void simpelSort(List* list) {
                 list->nums[i+1] = temp;
                 swapped = 1;
             }
-            usleep(10000);
+            usleep(1000);
             list->index = i;
         }
         
