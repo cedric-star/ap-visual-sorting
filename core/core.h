@@ -3,6 +3,7 @@
 #define CORE_H
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct {
     int dynLength;

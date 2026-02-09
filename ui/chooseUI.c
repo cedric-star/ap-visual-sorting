@@ -23,9 +23,6 @@ void drawStartButton(int w, int h, int* toDraw) {
     if (isPressed) {
         *toDraw = 1;
     }
-
-    
-
 }
 
 
