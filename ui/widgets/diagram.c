@@ -14,11 +14,15 @@ void createDiagram(Rectangle box, List* list) {
     int len = list->absLength;
     if (len <= 0) return;
     
-    int barWidth = box.width / len;
-    int maxValue = findMax(list->nums, len);  // Maximum berechnen
+    float barWidth = box.width / len;
+    int blankPixels = (int) box.width % len;
+    
+    int maxValue = findMax(list->nums, len);
 
     
     for(int i = 0; i < len; i++) {
+        
+
         int barHeight = (list->nums[i] * box.height) / maxValue;
         
         int x = box.x + (i * barWidth);
@@ -26,17 +30,15 @@ void createDiagram(Rectangle box, List* list) {
         
         
         if (i == list->index) {
-            DrawRectangle(x, y, barWidth, barHeight, RED);
+            DrawRectangle(x, y, barWidth+1, barHeight, RED);
         } else {
-            DrawRectangle(x, y, barWidth, barHeight, LIGHTGRAY);
+            DrawRectangle(x, y, barWidth+1, barHeight, LIGHTGRAY);
         }
 
         if (list->isFinished) {
-            DrawRectangle(x, y, barWidth, barHeight, GRAY);
-            //usleep(timeStep); //animation so aufsteigende balken noch machen
+            DrawRectangle(x, y, barWidth+1, barHeight, GRAY); 
         }
 
     }
-
     drawOutline(box, 4, PINK);
 }

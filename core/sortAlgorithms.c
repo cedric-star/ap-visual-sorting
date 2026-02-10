@@ -19,8 +19,9 @@ void simpleSort(MyAlgorithm* algo) {
                 list->nums[i+1] = temp;
                 swapped = 1;
             }
-            usleep(1000);
+            
             list->index = i;
+            usleep(100000);
         }
         
     }

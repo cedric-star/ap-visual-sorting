@@ -14,8 +14,8 @@
 
 #define defaultWidth 1200
 #define defaultHeight 800
-#define timeStep 1000
-#define mass 500
+#define timeStep 10000000
+#define mass 50
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 void* myThread(void* arg) {
