@@ -24,9 +24,11 @@ void* myThread(void* arg) {
 }
 
 void initAppState(AppState* state) {
-    state->numMaxInput[0] = '\0';
+    state->numMaxInput[0] = '0';
+    state->numMaxInput[1] = '\0';
     state->letCount = 0;
     state->toDraw = 0;
+    state->allDistinct = false;
 }
 
 
