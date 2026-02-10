@@ -23,7 +23,7 @@ void* myThread(void* arg) {
     initSort(algo);
 }
 
-void initAppState(AppState* state) {
+void initAppState(AppState* state, AlgoInfo *algoInfos) {
     AlgoInfo *bubbleInfos;
     AlgoInfo *selectionInfos;
     AlgoInfo *insertionInfos;
