@@ -23,7 +23,18 @@ void* myThread(void* arg) {
     simpelSort(list);
 }
 
+void initAppState(AppState* state) {
+    state->numMaxInput[0] = '\0';
+    state->letCount = 0;
+    state->toDraw = 0;
+}
+
+
 int main(void) {
+    AppState state = {0};
+    initAppState(&state);
+
+
     printf("starting...");
     int sWidth = defaultWidth;
     int sHeight = defaultHeight;
@@ -35,7 +46,6 @@ int main(void) {
 
     pthread_t thread1;
     List list;
-    
     
 
     list.dynLength = num;
@@ -57,7 +67,6 @@ int main(void) {
     //0 = chooser window
     //1 = sorting window 
     //2 = ergebnis window
-    int toDraw = 0;
 
     while (!WindowShouldClose()) 
     {
@@ -67,8 +76,8 @@ int main(void) {
         sHeight = GetScreenHeight();
         ClearBackground(BLACK);
 
-        switch (toDraw) {
-        case 0: drawChooseUI(sWidth, sHeight, &toDraw); break;
+        switch (state.toDraw) {
+        case 0: drawChooseUI(sWidth, sHeight, &state); break;
         case 1: 
             Rectangle dia = {0, 0, sWidth, sHeight};
             createDiagram(dia, &list);

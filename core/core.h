@@ -6,6 +6,12 @@
 #include <stdbool.h>
 
 typedef struct {
+    char numMaxInput[11];
+    int letCount;
+    int toDraw; //welches fenster soll gezeichnet werden
+} AppState;
+
+typedef struct {
     int dynLength;
     int absLength;
     int *nums;

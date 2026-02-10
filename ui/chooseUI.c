@@ -1,50 +1,49 @@
 #include "ui.h"
 //DrawText(text, box.x+6, box.y+2, box.height-2, c);
 void drawSortChooser(int w, int h) {
-    DrawText("choose sorting\nalgorithm", 8, 0, w/40, LIGHTGRAY);
+    DrawText("choose sorting\nalgorithm", 8, 0, w/40, FSTCOLOR);
 
     Rectangle rec = {0, 0, ((int) w/4), ((int) h/5*3)};
-    drawOutline(rec, 4, LIGHTGRAY);
+    drawOutline(rec, 4, FSTCOLOR);
 }
 
 void drawOptChooser(int w, int h) {
-    DrawText("choose list\nparameter", 8, (int) h/5*3, w/40, LIGHTGRAY);
+    DrawText("choose list\nparameter", 8, (int) h/5*3, w/40, FSTCOLOR);
 
     Rectangle rec = {0, ((int) h/5*3) - 4, ((int) w/4), h/5*2 + 4};
-    drawOutline(rec, 4, LIGHTGRAY);
+    drawOutline(rec, 4, FSTCOLOR);
 }
 
-void drawStartButton(int w, int h, int* toDraw) {
-    int btnWidth = (int) w / 10; 
-    int btnHeight = (int) h / 20;
-    int btnX = w - btnWidth - 20;  
-    int btnY = h - btnHeight - 20; 
+void drawStartButton(int w, int h, AppState* state) {
+    int btnX = (int) w / 10 * 8;
+    int btnY = (int) h / 20 * 18; 
+
+    int btnWidth = (w / 6); 
+    int btnHeight = (h / 14);
+    
     
     Rectangle btn = {btnX, btnY, btnWidth, btnHeight};
 
     bool isPressed = false;
-    drawButton(btn, "start", LIGHTGRAY, &isPressed);
+    drawButton(btn, "start", &isPressed);
     if (isPressed) {
-        *toDraw = 1;
+        state->toDraw = 1;
     }
 }
 
-void drawTextInput(Rectangle rec) {
-
-    char input[11] = "";
-    int letC = 0;
+void drawTextInput(Rectangle rec, AppState* state) {
     
-    drawInputField(rec, input, &letC, LIGHTGRAY);
-
+    
+    drawInputField(rec, state->numMaxInput, &state->letCount);
 }
 
-void drawChooseUI(int w, int h, int* toDraw) {
+void drawChooseUI(int w, int h, AppState* state) {
     drawSortChooser(w, h);
     drawOptChooser(w, h);
-    drawStartButton(w, h, toDraw);
+    drawStartButton(w, h, state);
 
     Rectangle test = {350, 100, 300, 70};
-    drawTextInput(test);
+    drawTextInput(test, state);
 }
 
 
