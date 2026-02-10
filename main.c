@@ -23,16 +23,17 @@ void* myThread(void* arg) {
     initSort(algo);
 }
 
-void initAppState(AppState* state, AlgoInfo *algoInfos) {
-
+void initAppState(AppState* state) {
     AlgoInfo *bubbleInfos;
     AlgoInfo *selectionInfos;
     AlgoInfo *insertionInfos;
     AlgoInfo *bogoInfos;
 
-    state->numMaxInput[0] = '\0';
+    state->numMaxInput[0] = '0';
+    state->numMaxInput[1] = '\0';
     state->letCount = 0;
     state->toDraw = 0;
+    state->allDistinct = false;
 
     bubbleInfos = malloc(sizeof(AlgoInfo));
     bubbleInfos -> id = 1;
@@ -91,7 +92,6 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     bogoInfos -> bestCase = "O(n)";
     bogoInfos -> stable = "nein";
     algoInfos[4] = *bogoInfos;
-
 }
 
 

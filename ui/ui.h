@@ -16,7 +16,7 @@ typedef struct {
 } Button;
 
 
-void drawButton(Rectangle box, char* text, bool* isPressed);
+void drawButton(Rectangle box, char* text, bool* isPressed, int fontSize);
 void drawOutline(Rectangle box, int thickness, Color c);
 void drawChooseUI(int w, int h, AppState* state);
 void createDiagram(Rectangle box, List* list);

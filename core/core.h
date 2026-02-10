@@ -19,6 +19,7 @@ typedef struct {
     char numMaxInput[11];
     int letCount;
     int toDraw; //welches fenster soll gezeichnet werden
+    bool allDistinct;
 } AppState;
 
 typedef struct {
