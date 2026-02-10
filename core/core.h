@@ -18,6 +18,7 @@ typedef struct {
     // 1 -> bubblesort
     // 2 -> quicksort
 
+    List* list;
     char* name;
     long time;
     long accesses; //listenzugriffe
@@ -49,7 +50,7 @@ typedef struct {
 
 
 
-void simpelSort(List* list);
+void initSort(MyAlgorithm* algoInfo);
 
 void setAllDisctinctRanNums(int *p_nums, int max);
 void setRanNums(int *p_nums, int max);
