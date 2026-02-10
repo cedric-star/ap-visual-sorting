@@ -14,13 +14,7 @@ void setAllDisctinctRanNums(int *p_nums, int max) {
     }
 
     //mischen
-    for (int i = 0; i < max; i++) {
-        int temp = p_nums[i];
-        int randI = myRanNum(max);
-
-        p_nums[i] = p_nums[randI];
-        p_nums[randI] = temp;
-    }
+    shuffleNums(p_nums, max);
 }
 
 
@@ -28,5 +22,15 @@ void setAllDisctinctRanNums(int *p_nums, int max) {
 void setRanNums(int *p_nums, int max) {
     for (int i = 0; i < max; i++) {
         p_nums[i] = myRanNum(max);
+    }
+}
+
+void shuffleNums(int *p_nums, int maxIndex) {
+    for (int i = 0; i < maxIndex; i++) {
+        int temp = p_nums[i];
+        int randI = myRanNum(maxIndex);
+
+        p_nums[i] = p_nums[randI];
+        p_nums[randI] = temp;
     }
 }

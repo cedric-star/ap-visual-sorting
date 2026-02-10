@@ -6,6 +6,16 @@
 #include <stdbool.h>
 
 typedef struct {
+    unsigned char id;
+    char* name;
+    char* description;
+    char* worstCase;
+    char* averageCase;
+    char* bestCase;
+    char* stable;
+} AlgoInfo;
+
+typedef struct {
     char numMaxInput[11];
     int letCount;
     int toDraw; //welches fenster soll gezeichnet werden
@@ -61,6 +71,7 @@ void initSort(MyAlgorithm* algoInfo);
 
 void setAllDisctinctRanNums(int *p_nums, int max);
 void setRanNums(int *p_nums, int max);
+void shuffleNums(int *p_nums, int maxIndex);
 
 
 #endif
