@@ -14,17 +14,12 @@
 
 #define defaultWidth 1200
 #define defaultHeight 800
-#define timeStep 10000000
-#define mass 20
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 
 
 void initAppState(AppState* state, AlgoInfo *algoInfos) {
-    AlgoInfo *bubbleInfos;
-    AlgoInfo *selectionInfos;
-    AlgoInfo *insertionInfos;
-    AlgoInfo *bogoInfos;
+    
 
     state->numMaxInput[0] = '0';
     state->numMaxInput[1] = '\0';
@@ -33,63 +28,59 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     state->allDistinct = false;
     state->algoNum = 0;
 
-    bubbleInfos = malloc(sizeof(AlgoInfo));
-    bubbleInfos -> id = 1;
-    bubbleInfos -> name = "Bubblesort";
-    bubbleInfos -> description = "Die Liste wird beginnend vom ersten Element "
+    
+// Bubblesort
+    algoInfos[1].id = 1;
+    algoInfos[1].name = "Bubblesort";
+    algoInfos[1].description = "Die Liste wird beginnend vom ersten Element "
     "(von rechts) angefangen zu sortiert. Jedes Element mit Index i wird mit dem Folgelement "
     "mit Index i+1 verglichen. Ist elem(i) > elem(i+1) werden die Elemente vertauscht. "
     "Nach jedem Durchlauf befindet sich das Größte Element der Liste am Ende und die "
-    "Liste wird anschließend um das derzeit letzte Element vekleinert. \n"
-    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf";
-    bubbleInfos -> worstCase = "O(n²)";
-    bubbleInfos -> averageCase = "O(n²)";
-    bubbleInfos -> bestCase = "O(n)";
-    bubbleInfos -> stable = "unknown";
-    algoInfos[1] = *bubbleInfos;
+    "Liste wird anschließend um das derzeit letzte Element verkleinert. \n"
+    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf ";
+    algoInfos[1].worstCase = "O(n²)";
+    algoInfos[1].averageCase = "O(n²)";
+    algoInfos[1].bestCase = "O(n)";
+    algoInfos[1].stable = "unknown";
 
-    
-    selectionInfos = malloc(sizeof(AlgoInfo));
-    selectionInfos -> id = 2;
-    selectionInfos -> name = "Selectionsort";
-    selectionInfos -> description = "Selection Sort beginnt stets mit dem "
+    // Selectionsort
+    algoInfos[2].id = 2;
+    algoInfos[2].name = "Selectionsort";
+    algoInfos[2].description = "Selection Sort beginnt stets mit dem "
     "ersten Element der Liste. Das Startelement wird als Minimum eingespeichert. "
     "Bei jedem Durchlauf werden alle Elemente der Liste mit dem Minimum verglichen. "
     "Am Ende der Liste angekommen, wird das Minimum am Anfang der Liste platziert und beim "
-    "nächten Durchlauf aus der Liste ausgelassen." 
-    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf";
-    selectionInfos -> worstCase = "O(n²)";
-    selectionInfos -> averageCase = "O(n²)";
-    selectionInfos -> bestCase = "O(n²)";
-    selectionInfos -> stable = "unknown";
-    algoInfos[2] = *selectionInfos;
+    "nächsten Durchlauf aus der Liste ausgelassen.\n"
+    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf ";
+    algoInfos[2].worstCase = "O(n²)";
+    algoInfos[2].averageCase = "O(n²)";
+    algoInfos[2].bestCase = "O(n²)";
+    algoInfos[2].stable = "unknown";
 
-    insertionInfos = malloc(sizeof(AlgoInfo));
-    insertionInfos -> id = 3;
-    insertionInfos -> name = "Insertionsort";
-    insertionInfos -> description = "Beginnend mit einer Teilliste, die nur das "
+    // Insertionsort
+    algoInfos[3].id = 3;
+    algoInfos[3].name = "Insertionsort";
+    algoInfos[3].description = "Beginnend mit einer Teilliste, die nur das "
     "erste Element der zu sortierenden Liste enthält, wird immer das Element am "
-    "Ende der Teilliste in die Teilliste einsortiert. Nach jedem Durchlauf, wird die "
+    "Ende der Teilliste in die Teilliste einsortiert. Nach jedem Durchlauf wird die "
     "Teilliste um ein weiteres Element erweitert.\n"
-    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf";
-    insertionInfos -> worstCase = "O(n²)";
-    insertionInfos -> averageCase = "O(n²)";
-    insertionInfos -> bestCase = "O(n)";
-    insertionInfos -> stable = "ja";
-    algoInfos[3] = *insertionInfos;
+    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf ";
+    algoInfos[3].worstCase = "O(n²)";
+    algoInfos[3].averageCase = "O(n²)";
+    algoInfos[3].bestCase = "O(n)";
+    algoInfos[3].stable = "ja";
 
-    bogoInfos = malloc(sizeof(AlgoInfo));
-    bogoInfos -> id = 4;
-    bogoInfos -> name = "Bogosort";
-    bogoInfos -> description = "Bogo Sort ist ein extrem ineffizienter "
+    // Bogosort
+    algoInfos[4].id = 4;
+    algoInfos[4].name = "Bogosort";
+    algoInfos[4].description = "Bogo Sort ist ein extrem ineffizienter "
     "Sortieralgorithmus, basierend auf dem \"Generier und Teste\"-Paradigma. "
     "Die Liste wird vollständig zufällig angeordnet und danach geprüft, ob sie richtig ist.\n"
-    "Link: https://www.geeksforgeeks.org/dsa/bogosort-permutation-sort/";
-    bogoInfos -> worstCase = "O(?)";
-    bogoInfos -> averageCase = "O(n*n!)";
-    bogoInfos -> bestCase = "O(n)";
-    bogoInfos -> stable = "nein";
-    algoInfos[4] = *bogoInfos;
+    "Link: https://www.geeksforgeeks.org/dsa/bogosort-permutation-sort/ ";
+    algoInfos[4].worstCase = "O(?)";
+    algoInfos[4].averageCase = "O(n*n!)";
+    algoInfos[4].bestCase = "O(n)";
+    algoInfos[4].stable = "nein";
 }
 
 
@@ -131,18 +122,14 @@ int main(void) {
         case 0: drawChooseUI(sWidth, sHeight, &state); break;
         case 1: 
             Rectangle dia = {0, 0, sWidth, sHeight};
-            for (int i = 0; i < state.algoNum; i++) {
+            for (int i = 0; i < state.algoNum; i++) { 
                 createDiagram(dia, state.algos[i].list);
             }
             break;
         }
         
         EndDrawing();
-
-        
     }
-
-    //pthread_join(thread1, NULL);
     CloseWindow();
     printf("stopping...");
     return 0;

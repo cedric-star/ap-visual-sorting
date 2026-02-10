@@ -47,6 +47,7 @@ typedef struct {
     bool allDistinct;
     MyAlgorithm algos[16];
     int algoNum;
+    pthread_t threads[16];
 } AppState;
 
 
