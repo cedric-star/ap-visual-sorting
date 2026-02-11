@@ -100,6 +100,8 @@ void insertionSort(MyAlgorithm* algo, int wait) {
     n = list->dynLength;
 
     for(int bound = 1; bound < n; bound++) {
+        algo->repeats += 1;
+        algo->accesses += 2;
         
         int currElem = list->nums[bound];
         int i = bound;
@@ -108,6 +110,7 @@ void insertionSort(MyAlgorithm* algo, int wait) {
         usleep(wait/3);
 
         while(i > 0 && (list->nums[i-1] > currElem)) {
+            algo->accesses += 2;
             list->nums[i] = list->nums[i-1];
             i = i - 1;
             list->index = i;
@@ -123,6 +126,7 @@ void bogoSort(MyAlgorithm* algo, int wait) {
     List* list;
     list = algo->list;
     while(true) {
+        algo->repeats += 1;
         shuffleNums(list->nums, (list->dynLength));
         checkOrder(list, wait/2);
         if(list->isFinished == true) {
