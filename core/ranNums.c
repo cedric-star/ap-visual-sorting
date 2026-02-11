@@ -5,6 +5,15 @@ int myRanNum(int max) {
     return (rand() % max + 1);
 }
 
+void shuffleNums(int *p_nums, int maxIndex) {
+    for (int i = 0; i < maxIndex; i++) {
+        int temp = p_nums[i];
+        int randI = myRanNum(maxIndex);
+
+        p_nums[i] = p_nums[randI];
+        p_nums[randI] = temp;
+    }
+}
 
 //alle zahen unterschiedlich
 void setAllDisctinctRanNums(int *p_nums, int max) {
@@ -17,7 +26,6 @@ void setAllDisctinctRanNums(int *p_nums, int max) {
     shuffleNums(p_nums, max);
 }
 
-
 //alle zahlen random, können auch gleiche mehrmals vorkommen
 void setRanNums(int *p_nums, int max) {
     for (int i = 0; i < max; i++) {
@@ -25,12 +33,14 @@ void setRanNums(int *p_nums, int max) {
     }
 }
 
-void shuffleNums(int *p_nums, int maxIndex) {
-    for (int i = 0; i < maxIndex; i++) {
-        int temp = p_nums[i];
-        int randI = myRanNum(maxIndex);
+void setOrderedNums(int *p_nums, int max) {
+    for (int i = 0; i < max; i++) {
+        p_nums[i] = i;
+    }
+}
 
-        p_nums[i] = p_nums[randI];
-        p_nums[randI] = temp;
+void setReverseOrderedNums(int *p_nums, int max) {
+    for (int i = 0; i < max; i++) {
+        p_nums[i] = max - i;
     }
 }

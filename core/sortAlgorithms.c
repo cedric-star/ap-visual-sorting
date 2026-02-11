@@ -4,7 +4,7 @@
 
 #include "core.h"
 
-#define wait 20000
+#define wait 10000
 
 void checkOrder(List *p_list) {
     for(int i = 1; i < p_list->dynLength; i++) {

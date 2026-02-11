@@ -150,7 +150,7 @@ void drawStartButton(int w, int h, AppState* state) {
 
             //algorithmus daten platz allokieren
             MyAlgorithm* algo = malloc(sizeof(MyAlgorithm));
-            algo->id = 0; //hier den passenden algorithmus eintragen
+            algo->id = 3; //hier den passenden algorithmus eintragen
             algo->list = list;
             algo->name = "Bubblesort";
             algo->accesses = 0;
