@@ -18,18 +18,38 @@
 
 
 
-void initAppState(AppState* state, AlgoInfo *algoInfos) {
+void initAppState(AppState* state) {
     
 
-    state->numMaxInput[0] = '0';
+    for (int i = 0; i < 8; i++) {
+        state->numMaxInput[i] = '0';
+    }
     state->numMaxInput[1] = '\0';
     state->letCount = 0;
     state->toDraw = 0;
     state->allDistinct = false;
     state->algoNum = 0;
+    state->showSortChooserPage = 0;
+    state->nextSortChooserPage = false;
 
     
-// Bubblesort
+    AlgoInfo *algoInfos = calloc(10, sizeof(AlgoInfo));
+    // Testsort
+    algoInfos[0].id = 1;
+    algoInfos[0].name = "TestSort";
+    algoInfos[0].description = "Die Liste wird beginnend vom ersten Element "
+    "(von rechts) angefangen zu sortiert. Jedes Element mit Index i wird mit dem Folgelement "
+    "mit Index i+1 verglichen. Ist elem(i) > elem(i+1) werden die Elemente vertauscht. "
+    "Nach jedem Durchlauf befindet sich das Größte Element der Liste am Ende und die "
+    "Liste wird anschließend um das derzeit letzte Element verkleinert. \n"
+    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf ";
+    algoInfos[0].worstCase = "O(n²)";
+    algoInfos[0].averageCase = "O(n²)";
+    algoInfos[0].bestCase = "O(n)";
+    algoInfos[0].stable = "unknown";
+    algoInfos[0].isSelected = false;
+
+    // Bubblesort
     algoInfos[1].id = 1;
     algoInfos[1].name = "Bubblesort";
     algoInfos[1].description = "Die Liste wird beginnend vom ersten Element "
@@ -42,6 +62,7 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     algoInfos[1].averageCase = "O(n²)";
     algoInfos[1].bestCase = "O(n)";
     algoInfos[1].stable = "unknown";
+    algoInfos[1].isSelected = false;
 
     // Selectionsort
     algoInfos[2].id = 2;
@@ -56,6 +77,7 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     algoInfos[2].averageCase = "O(n²)";
     algoInfos[2].bestCase = "O(n²)";
     algoInfos[2].stable = "unknown";
+    algoInfos[2].isSelected = false;
 
     // Insertionsort
     algoInfos[3].id = 3;
@@ -69,6 +91,7 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     algoInfos[3].averageCase = "O(n²)";
     algoInfos[3].bestCase = "O(n)";
     algoInfos[3].stable = "ja";
+    algoInfos[3].isSelected = false;
 
     // Bogosort
     algoInfos[4].id = 4;
@@ -81,16 +104,18 @@ void initAppState(AppState* state, AlgoInfo *algoInfos) {
     algoInfos[4].averageCase = "O(n*n!)";
     algoInfos[4].bestCase = "O(n)";
     algoInfos[4].stable = "nein";
+    algoInfos[4].isSelected = false;
+
+    state->algoInfos = algoInfos;
+    state->algoInfoNum = 4;
+
 }
 
 
 int main(void) {
     AppState state = {0};
-    AlgoInfo *algoInfos = calloc(10, sizeof(AlgoInfo));
-    initAppState(&state, algoInfos);
+    initAppState(&state);
 
-    printf("ID of bubble sort: %d\n", algoInfos[1].id);
-    printf("Desc of bubble sort: %s\n", algoInfos[1].description);
 
     printf("starting...");
     int sWidth = defaultWidth;
@@ -99,12 +124,9 @@ int main(void) {
     
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    SetWindowMinSize(500, 300);               // Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
     InitWindow(sWidth, sHeight, "Diagramm Beispiel");
     SetTargetFPS(60); 
-
-    
-    
-
 
     //0 = chooser window
     //1 = sorting window 

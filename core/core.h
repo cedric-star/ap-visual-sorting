@@ -7,6 +7,7 @@
 
 typedef struct {
     unsigned char id;
+    bool isSelected;
     char* name;
     char* description;
     char* worstCase;
@@ -40,15 +41,23 @@ typedef struct {
     bool correct; //ist sortierung korekt?
 } MyAlgorithm;
 
+
 typedef struct {
-    char numMaxInput[11];
+    char numMaxInput[8];//max siebenstellige zahl eingeben, alles <1mio. wird auf festen kleinen wert gesetzt
     int letCount;
     int toDraw; //welches fenster soll gezeichnet werden
     bool allDistinct;
     MyAlgorithm algos[16];
     int algoNum;
     pthread_t threads[16];
+    AlgoInfo* algoInfos;
+    int algoInfoNum;
+
+    int showSortChooserPage; //chooseUI -> wleche seite der sortieralgorithmen angezeigt werden soll
+    bool nextSortChooserPage;
 } AppState;
+
+
 
 
 

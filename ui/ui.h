@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <string.h>
+#include <math.h>
 #include "../core/core.h"
 
 #define FSTCOLOR (Color){230, 230, 230, 255}
@@ -18,11 +19,11 @@ typedef struct {
 } Button;
 
 
-void drawButton(Rectangle box, char* text, bool* isPressed, int fontSize);
+void drawButton(Rectangle box, char* text, bool* isPressed, int fontSize, Color bgIfPressed);
 void drawOutline(Rectangle box, int thickness, Color c);
 void drawChooseUI(int w, int h, AppState* state);
 void createDiagram(Rectangle box, List* list);
-void drawInputField(Rectangle box, char* input, int* letterCount);
+void drawInputField(Rectangle box, char* input, int* letterCount, int fontSize);
 
 
 
