@@ -34,7 +34,7 @@ void drawInputField(Rectangle box, char* input, int* letterCount, int fontSize) 
         int key = GetCharPressed();
 
         //48 - 57 = zahlentasten oben auf tastatur (1,2,...9,0)
-        while ((key >= 48) && (key <= 57) && (*letterCount < 8)) {
+        while ((key >= 48) && (key <= 57) && (*letterCount < 7)) {
             input[*letterCount] = (char) key;
             input[*letterCount+1] = '\0';
             *letterCount += 1;
