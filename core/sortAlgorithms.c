@@ -5,7 +5,7 @@
 #include "core.h"
 
 //#define wait 10000
-#define baseWait 1000000 //1s
+#define baseWait 60000000 //60s
 
 void checkOrder(List *p_list, int wait) {
     for(int i = 1; i < p_list->dynLength; i++) {
@@ -174,7 +174,8 @@ int calcWait(int numsLength) {
     //Gleichung durch Trial and Error bestimmt :P
     //Versucht die Wartezeit mit der Größe der Liste zu skalieren, 
     // sodass die Wartezeit für große Listen nicht extrem steigt.
-    waitTime = baseWait / (numsLength / sqrt(numsLength));
+    waitTime = baseWait / (numsLength * sqrt(numsLength));
+    //waitTime = baseWait / (numsLength * numsLength);
     return waitTime;
 
 }

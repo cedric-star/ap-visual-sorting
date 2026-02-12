@@ -15,6 +15,8 @@ void initAppState(AppState* state) {
     state->algoNum = 0;
     state->showSortChooserPage = 0;
     state->nextSortChooserPage = false;
+    state->showSortViewerPage = 0;
+    state->nextSortViewerPage = false;
 
     
     int algoInfoNum = 23;

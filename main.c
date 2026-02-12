@@ -33,7 +33,7 @@ int main(void) {
     
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    SetWindowMinSize(500, 300);               // Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
+    SetWindowMinSize(1000, 700);               // Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
     InitWindow(sWidth, sHeight, "Diagramm Beispiel");
     SetTargetFPS(60); 
 

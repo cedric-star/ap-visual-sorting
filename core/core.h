@@ -57,6 +57,9 @@ typedef struct {
 
     int showSortChooserPage; //chooseUI -> wleche seite der sortieralgorithmen angezeigt werden soll
     bool nextSortChooserPage;
+
+    int showSortViewerPage;
+    bool nextSortViewerPage;
 } AppState;
 
 
