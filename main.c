@@ -17,10 +17,6 @@
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 
-
-
-
-
 int main(void) {
     AppState state = {0};
     initAppState(&state);
@@ -30,7 +26,6 @@ int main(void) {
     int sWidth = defaultWidth;
     int sHeight = defaultHeight;
 
-    
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetWindowMinSize(500, 300);               // Set window minimum dimensions (for FLAG_WINDOW_RESIZABLE)
@@ -50,14 +45,23 @@ int main(void) {
         ClearBackground(BLACK);
 
         switch (state.toDraw) {
-        case 0: drawChooseUI(sWidth, sHeight, &state); break;
-        case 1: 
-            Rectangle dia = {0, 0, sWidth, sHeight};
-            for (int i = 0; i < state.algoNum; i++) { 
-                createDiagram(dia, state.algos[i].list);
-            }
-            break;
+            case 0: drawChooseUI(sWidth, sHeight, &state); break;
+            case 1: 
+                Rectangle dia = {0, 0, sWidth, sHeight};
+                int finishedCounter;
+                for (int i = 0; i < state.algoNum; i++) { 
+                    createDiagram(dia, state.algos[i].list);
+                    if(state.algos[i].list->isFinished) {
+                        finishedCounter++;
+                    }
+                }
+                if(finishedCounter >= state.algoNum) {
+                    state.toDraw = 2;
+                }
+                break;
+            case 2: drawResultUI(sWidth, sHeight, &state); break;
         }
+        
         
         EndDrawing();
     }

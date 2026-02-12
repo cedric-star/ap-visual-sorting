@@ -22,9 +22,8 @@ typedef struct {
 void drawButton(Rectangle box, char* text, bool* isPressed, int fontSize, Color bgIfPressed);
 void drawOutline(Rectangle box, int thickness, Color c);
 void drawChooseUI(int w, int h, AppState* state);
+void drawResultUI(int w, int h, AppState* state);
 void createDiagram(Rectangle box, List* list);
 void drawInputField(Rectangle box, char* input, int* letterCount, int fontSize);
-
-
 
 #endif

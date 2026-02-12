@@ -1,5 +1,7 @@
 #include "ui.h"
 
+
+/*
 #define calcRowY(row, rowNum, rec) (rec.y+(rec.height/rowNum*row)+gapDiff)
 
 int spaceRight = 8;
@@ -81,7 +83,7 @@ void drawSortChooser(int w, int h, AppState* state) {
 
 
 void drawOptChooser(int w, int h, AppState* state) {
-    Rectangle options = {0, h*0.6f - 4, w*0.25f, h*0.4f + 4};
+    Rectangle options = {0, h*0.6 - 4, w*0.25f, h*0.4f + 4};
     int rows = 6;
     int fontSize = w*0.02f;
 
@@ -101,16 +103,11 @@ void drawOptChooser(int w, int h, AppState* state) {
 
     drawOutline(options, 4, FSTCOLOR);
 }
+    */
 
-void* myThread(void* arg) {
-    MyAlgorithm* algo = (MyAlgorithm*) arg;
-    initSort(algo);
-    pthread_exit(0);
-}
-
-void drawStartButton(int w, int h, AppState* state) {
-    int btnX = (int) w / 10 * 8;
-    int btnY = (int) h / 20 * 18; 
+void drawExportButton(int w, int h, AppState* state) {
+    int btnX = (int) w * 0.1f;
+    int btnY = (int) h * 0.06f; 
 
     int btnWidth = (w / 6); 
     int btnHeight = (h / 14);
@@ -119,59 +116,18 @@ void drawStartButton(int w, int h, AppState* state) {
     Rectangle btn = {btnX, btnY, btnWidth, btnHeight};
 
     bool isPressed = false;
-    drawButton(btn, "start", &isPressed, btn.height, FSTCOLOR);
+    drawButton(btn, "export to csv", &isPressed, btn.height, FSTCOLOR);
 
 
     if (isPressed) {
-        state->toDraw = 1;
-        state->algoNum = 1;
-
-        int mass = atoi(state->numMaxInput);
-        if (mass <= 0 || mass > 1000000) mass = 100;
-
-
-        int *nums = calloc(mass, sizeof(int));
-        if (state->allDistinct){
-            setAllDisctinctRanNums(nums, mass); 
-        } else {
-            setRanNums(nums, mass);
-        }
-
-        for (int i = 0; i < state->algoNum; i++) {
-            int *newNums = calloc(mass, sizeof(int));
-            memcpy(newNums, nums, mass * sizeof(int));//erstellte liste kopieren
-
-            //listenstrukt allokieren
-            List* list = malloc(sizeof(List));
-            list->dynLength = mass;
-            list->absLength = mass;
-            list->nums = nums;
-            list->index = 0;
-            list->isFinished = false;
-
-            //algorithmus daten platz allokieren
-            MyAlgorithm* algo = malloc(sizeof(MyAlgorithm));
-            algo->id = 5; //hier den passenden algorithmus eintragen
-            algo->list = list;
-            algo->name = "Bubblesort";
-            algo->accesses = 0;
-            algo->repeats = 0;
-            algo->correct = false;
-            algo->time = 0;
-
-            //liste und algodaten speichern
-            state->algos[i] = *algo;  //kopie
-            state->algos[i].list = list;  //ointer auf heap
-
-            pthread_create(&state->threads[i], NULL, myThread, algo);
-        }
+        
     }
 }
 
-void drawChooseUI(int w, int h, AppState* state) {
-    drawSortChooser(w, h, state);
-    drawOptChooser(w, h, state);
-    drawStartButton(w, h, state);
+void drawResultUI(int w, int h, AppState* state) {
+    //drawGeneralInfo(w, h, state);
+    //drawAlgoInfos(w, h, state);
+    drawExportButton(w, h, state);
 }
 
 
