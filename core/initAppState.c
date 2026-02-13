@@ -12,6 +12,8 @@ void initAppState(AppState* state) {
     state->letCount = 0;
     state->toDraw = 0;
     state->allDistinct = false;
+    state->sorted = false;
+    state->descending = false;
     state->algoNum = 0;
     state->showSortChooserPage = 0;
     state->nextSortChooserPage = false;

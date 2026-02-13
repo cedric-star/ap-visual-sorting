@@ -52,6 +52,8 @@ typedef struct {
     int letCount;
     int toDraw; //welches fenster soll gezeichnet werden
     bool allDistinct;
+    bool sorted;
+    bool descending;
     MyAlgorithm algos[MAXARNUM];
     int algoNum; //ausgewählte sortieralgorithmen;
     pthread_t threads[MAXARNUM];

@@ -10,7 +10,32 @@ void drawTitle(int w, int h, AppState* state) {
 void drawGeneralInfo(int w, int h, AppState* state) {
     Rectangle titleRec = {0, h * 0.1f - 4, w * 0.4f, h * 0.9f + 4};
     int fontSize = w*0.04f;
+    int rows = 10;
     drawOutline(titleRec, 4, FSTCOLOR);
+
+    DrawText("General info:", spaceRight, calcRowY(0, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+
+    DrawText("List:", spaceRight*2, calcRowY(1, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+
+    if(state->algoNum == 0) {
+        DrawText("-", spaceRight*3, calcRowY(2, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+    } else {
+        char size[32];  
+        snprintf(size, sizeof(size), "%d numbers", state->algos[0].list->dynLength);
+        DrawText(size, spaceRight*3, calcRowY(2, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+    }
+
+    char* txt;
+    txt = state->allDistinct ? "All distinct" : "Not all distinct";
+    DrawText(txt, spaceRight*3, calcRowY(3, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+    txt = state->sorted ? "Sorted" : "Unsorted";
+    DrawText(txt, spaceRight*3, calcRowY(4, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+
+    if(state->sorted) {
+        txt = state->descending ? "Descending" : "Ascending";
+        DrawText(txt, spaceRight*4, calcRowY(5, rows, titleRec)-gapDiff, fontSize, FSTCOLOR);
+    }
+
 }
 
 void drawAlgoInfos(int w, int h, AppState* state) {
@@ -25,14 +50,11 @@ void drawAlgoInfos(int w, int h, AppState* state) {
     int totalPages = (state->algoNum + numPerPage - 1) / numPerPage;
     if (totalPages < 1) totalPages = 1;
 
-    
-
-
     int shown = 0; 
     int pageHeight = 0;   
     for (int i = 0; i < state->algoNum; i++) {
         if (pageHeight >= currentPage * numPerPage && shown < (currentPage + 1) * numPerPage) {
-            int height = calcRowY(shown + 1, rows, algoRec) + gapDiff * 2;
+            int height = calcRowY(shown + 1, rows, algoRec) - 0.06f * h + gapDiff*1.5;
 
             char accesses[32];
             char repeats[32];
@@ -46,7 +68,6 @@ void drawAlgoInfos(int w, int h, AppState* state) {
             DrawText(accesses, algoRec.x + 32, height + fontSize, fontSize, FSTCOLOR);
             DrawText(repeats, algoRec.x + 32, height + fontSize*2, fontSize, FSTCOLOR);
             DrawText(time, algoRec.x + 32, height + fontSize*3, fontSize, FSTCOLOR);
-
             
             shown++;
         }

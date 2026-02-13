@@ -168,22 +168,33 @@ void drawSortChooser(int w, int h, AppState* state) {
 
 void drawOptChooser(int w, int h, AppState* state) {
     Rectangle options = {0, h*0.6f - 4, w*0.25f, h*0.4f + 4};
-    int rows = 6;
-    int fontSize = w*0.02f;
+    int rows = 9;
+    int fontSize = w*0.015f;
 
-    DrawText("choose\nparameter", spaceRight, calcRowY(0, rows, options)-gapDiff, fontSize, FSTCOLOR);
+    DrawText("Choose\nparameter", spaceRight, calcRowY(0, rows, options)-gapDiff, fontSize, FSTCOLOR);
 
     
-    DrawText("List size n:", spaceRight, calcRowY(1, rows, options), fontSize, FSTCOLOR);
+    DrawText("List size n:", spaceRight, calcRowY(1, rows, options) - 0.5*fontSize, fontSize, FSTCOLOR);
     Rectangle nRec = {spaceRight, calcRowY(2, rows, options)-h*0.02f, options.width-spaceRight*2, options.height/rows*0.6f};
     drawInputField(nRec, state->numMaxInput, &state->letCount, nRec.height-w*0.001f);
 
-    DrawText("all distinct?:", spaceRight, calcRowY(3, rows, options), fontSize, FSTCOLOR);
+    DrawText("All distinct?:", spaceRight, calcRowY(3, rows, options) - 0.5*fontSize, fontSize, FSTCOLOR);
 
     Rectangle btnRec = {spaceRight, calcRowY(4, rows, options)-h*0.02f, options.width-spaceRight*2, options.height/rows*0.6f};
     char* btnText = (state->allDistinct) ? "yes" : "no";
     drawButton(btnRec, btnText, &state->allDistinct, btnRec.height-w*0.001f, (Color){0,0,0,0});
 
+    DrawText("Sorted?:", spaceRight, calcRowY(5, rows, options) - 0.5*fontSize, fontSize, FSTCOLOR);
+
+    Rectangle btnSortRec = {spaceRight, calcRowY(6, rows, options)-h*0.02f, options.width-spaceRight*2, options.height/rows*0.6f};
+    char* btnSortText = (state->sorted) ? "yes" : "no";
+    drawButton(btnSortRec, btnSortText, &state->sorted, btnSortRec.height-w*0.001f, (Color){0,0,0,0});
+
+    DrawText("Order:", spaceRight, calcRowY(7, rows, options) - 0.5*fontSize, fontSize, FSTCOLOR);
+
+    Rectangle btnOrderRec = {spaceRight, calcRowY(8, rows, options)-h*0.02f, options.width-spaceRight*2, options.height/rows*0.6f};
+    char* btnOrderText = (state->descending) ? "descending" : "ascending";
+    drawButton(btnOrderRec, btnOrderText, &state->descending, btnOrderRec.height-w*0.001f, (Color){0,0,0,0});
 
     drawOutline(options, 4, FSTCOLOR);
 }
