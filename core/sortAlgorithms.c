@@ -5,7 +5,7 @@
 #include "core.h"
 
 //#define wait 10000
-#define baseWait 5000000 //5s
+#define baseWait 30000000 //30s
 
 void checkOrder(List *p_list, int wait) {
     for(int i = 1; i < p_list->dynLength; i++) {
@@ -41,7 +41,7 @@ void bubbleSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             }
             list->index = i;
 
-            usleep(wait);
+            usleep(wait/10);
             clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
             algo->time = (end.tv_sec - start->tv_sec);
             algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
@@ -150,7 +150,6 @@ void bogoSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     }
 }
 
-//geklaut :)
 void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     struct timespec end;
 
@@ -181,6 +180,74 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
         algo->repeats += 1;
 
         usleep(wait/2);
+    }
+}
+
+void heapify(MyAlgorithm* algo, int n, int i, int wait, struct timespec* start) {
+    struct timespec end;
+    List* list;
+    
+    int biggestIndex = i;
+    int leftNodeIndex = 2 * i + 1; //Index des linken Kind-Knotens
+    int rightNodeIndex = 2 * i + 2; //Index des rechten Kind-Knotens
+    list = algo->list;
+
+    usleep(wait/4);
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+    algo->time = (end.tv_sec - start->tv_sec);
+    algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
+
+    int* nums = list->nums;
+    list->index = biggestIndex; 
+
+    if(leftNodeIndex < n && nums[leftNodeIndex] > nums[biggestIndex]) {
+        biggestIndex = leftNodeIndex;
+    }
+
+    if(rightNodeIndex < n && nums[rightNodeIndex] > nums[biggestIndex]) {
+        biggestIndex = rightNodeIndex;
+    }
+
+    algo->accesses += 1;
+
+    if(biggestIndex != i) {
+        int temp = nums[i];
+        nums[i] = nums[biggestIndex];
+        nums[biggestIndex] = temp;
+
+
+        heapify(algo, n, biggestIndex, wait, start);
+    }
+}
+
+void heapSort(MyAlgorithm* algo, int wait, struct timespec* start) {
+    
+    struct timespec end;
+    List* list;
+    list = algo->list;
+    int n = list->dynLength;
+
+    //beginne vom letzten möglichen Elternknoten
+    for(int i = n/2 - 2; i >= 0; i--) {
+        list->index = i; 
+        usleep(wait/4);
+
+        heapify(algo, n, i, wait, start);
+    }
+
+    for(int i = n - 1; i > 0; i--) {
+        list->index = i; 
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
+
+        int temp = list->nums[0];
+        list->nums[0] = list->nums[i];
+        list->nums[i] = temp;
+
+        algo->repeats += 2;
+        heapify(algo, i, 0, wait, start);
+        usleep(wait/4);
     }
 }
 
@@ -215,10 +282,7 @@ void initSort(MyAlgorithm* algo) {
         case 3: insertionSort(algo, waitTime, &start); break;
         case 4: bogoSort(algo, waitTime, &start); break;
         case 5: shellSort(algo, waitTime, &start); break;
-
-        //hier fehlt code
-        
-        case 6: selectionSort(algo, waitTime, &start); break;
+        case 6: heapSort(algo, waitTime, &start); break;
         case 7: selectionSort(algo, waitTime, &start); break;
         case 8: selectionSort(algo, waitTime, &start); break;
         case 9: selectionSort(algo, waitTime, &start); break;

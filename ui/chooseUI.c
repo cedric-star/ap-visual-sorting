@@ -40,8 +40,8 @@ void drawSortViewer(int w, int h, AppState* state) {
             int heightOffset = (fontSize * 0.5f);
             int newFontSize = w*h*0.000013f;
 
-            char cases[64];
-            snprintf(cases, sizeof(cases), "Best Case: %s, Worst Cases: %s", state->algoInfos[i].bestCase, state->algoInfos[i].worstCase);
+            char cases[128];
+            snprintf(cases, sizeof(cases), "Best Case: %s, Worst Case: %s, Average Case: %s", state->algoInfos[i].bestCase, state->algoInfos[i].worstCase, state->algoInfos[i].averageCase);
             DrawText(cases, viewerRec.x + 8, height + 2.0f * heightOffset, newFontSize, FSTCOLOR);
 
             char stableness[64];
@@ -98,7 +98,7 @@ void drawSortChooser(int w, int h, AppState* state) {
     int fontSize = w*0.02f;
     int rows = 10;
     
-    DrawText("choose sorting\nalgorithm", spaceRight, calcRowY(0, rows, sortingRec)-gapDiff, fontSize, FSTCOLOR);
+    DrawText("Choose sorting\nalgorithm", spaceRight, calcRowY(0, rows, sortingRec)-gapDiff, fontSize, FSTCOLOR);
 
     //vaiablen für die anzeige auf verschiedenen seiten
     int numPerPage = 7;
