@@ -34,9 +34,9 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
     algoInfos[0].id = 0;
     algoInfos[0].name = "TestSort";
     algoInfos[0].description = "Die Liste wird beginnend vom ersten Element (von rechts) angefangen zu sortiert. Jedes Element mit\n"
-    "Index i wird mit dem Folgelement mit Index i+1 verglichen. Ist elem(i) > elem(i+1) werden die Elemente vertauscht. \n"
-    "Nach jedem Durchlauf befindet sich das Größte Element der Liste am Ende und die Liste wird anschließend um das derzeit letzte \n"
-    "Element verkleinert. Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf\n";
+    "Index i wird mit dem Folgelement mit Index i+1 verglichen. Ist elem(i) > elem(i+1) werden die\n" 
+    "Elemente vertauscht. Nach jedem Durchlauf befindet sich das Größte Element der Liste am Ende und\n"
+    "die Liste wird anschließend um das derzeit letzte Element verkleinert.";
     algoInfos[0].worstCase = "O(n²)";
     algoInfos[0].averageCase = "O(n²)";
     algoInfos[0].bestCase = "O(n)";
