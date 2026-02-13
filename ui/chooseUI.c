@@ -207,11 +207,11 @@ void drawStartButton(int w, int h, AppState* state) {
             setRanNums(nums, mass);
         }
 
+        int counter = 0;
         for (int i = 0; i < state->algoInfoNum; i++) {
             if (state->algoInfos[i].isSelected) {
 
             
-
                 int *newNums = calloc(mass, sizeof(int));
                 memcpy(newNums, nums, mass * sizeof(int));//erstellte liste kopieren
 
@@ -219,7 +219,7 @@ void drawStartButton(int w, int h, AppState* state) {
                 List* list = malloc(sizeof(List));
                 list->dynLength = mass;
                 list->absLength = mass;
-                list->nums = nums;
+                list->nums = newNums; //hier war nums
                 list->index = 0;
                 list->isFinished = false;
 
@@ -235,10 +235,12 @@ void drawStartButton(int w, int h, AppState* state) {
                 algo->time = 0;
 
                 //liste und algodaten speichern
-                state->algos[i] = *algo;  //kopie
-                state->algos[i].list = list;  //ointer auf heap
+                state->algos[counter] = *algo;  //kopie
+                state->algos[counter].list = list;  //ointer auf heap
 
-                pthread_create(&state->threads[i], NULL, myThread, algo);
+                state->algoNum++;
+                pthread_create(&state->threads[counter], NULL, myThread, algo);
+                counter ++;
             }
         }
     }
