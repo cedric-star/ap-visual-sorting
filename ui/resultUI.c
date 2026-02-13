@@ -107,7 +107,28 @@ void drawExportButton(int w, int h, AppState* state) {
 
 
     if (isPressed) {
-        //do stuff
+        char line[256];
+        char* header = "algorithm,arraylength,alldistinct,sorted,ascending,cputime,accesses,repeats\n";
+
+        FILE *file;
+        file = fopen("mydata.txt", "a");
+        if (file) fprintf(file, "%s", header);//%s dafür, nicht direkt string reintun
+
+        for (int i = 0; i < state->algoNum; i++) {
+
+            snprintf(line, sizeof(line), "%s,%d,%s,%s,%s,%lf,%ld,%ld\n",
+                state->algos[i].name,
+                state->algos[i].list->absLength,
+                state->allDistinct ? "true" : "false",
+                state->allDistinct ? "true" : "false", //muss sorted sein
+                state->allDistinct ? "true" : "false",  //muss ascending sein
+                state->algos[i].time,
+                state->algos[i].accesses,
+                state->algos[i].repeats);
+            
+            fprintf(file, "%s", line); //%s dafür, nicht direkt string reintun
+        }
+        fclose(file);
     }
 }
 
