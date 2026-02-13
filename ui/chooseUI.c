@@ -3,35 +3,56 @@
 void drawSortViewer(int w, int h, AppState* state) {
     Rectangle viewerRec = {w*0.25f - 4, 0, w*0.75f, h};
     int fontSize = w * 0.025f;
-    int rows = 10;
+    int rows = 4;
 
     DrawText("View Infos for selected Algorithms", viewerRec.x + spaceRight, calcRowY(0, rows, viewerRec) + 8, fontSize, FSTCOLOR);
 
-    //vaiablen für die anzeige auf verschiedenen seiten
-    int numPerPage = 8;
+    int numPerPage = 3;
     int currentPage = state->showSortViewerPage;
     
-    // Zähle ausgewählte Items
+    //anzahl angeklickter algos
     int selectedCount = 0;
     for (int i = 0; i < state->algoInfoNum; i++) {
         if (state->algoInfos[i].isSelected) selectedCount++;
-    }
+    }//muss vor forscheife bestimmt werden für anzahl gesamter seiten
     
     int totalPages = (selectedCount + numPerPage - 1) / numPerPage;
     if (totalPages < 1) totalPages = 1;
 
+    //aktuelle seite begrenzen
+    if (currentPage >= totalPages) currentPage = state->showSortViewerPage = totalPages - 1;
+
     int shown = 0; 
-    int pageHeight = 0;   
+    int selectedIndex = 0;
+    
     for (int i = 0; i < state->algoInfoNum; i++) {
         if (!state->algoInfos[i].isSelected) continue;
         
-        if (pageHeight >= currentPage * numPerPage && shown < (currentPage + 1) * numPerPage) {
-            
+        //indexe, die für die aktuelle seite angezeigt werden
+        int pageStart = currentPage * numPerPage;
+        int pageEnd = (currentPage + 1) * numPerPage;
+        
+        if (selectedIndex >= pageStart && selectedIndex < pageEnd) {
             int height = calcRowY(shown + 1, rows, viewerRec) + gapDiff * 2;
+            
             DrawText(state->algoInfos[i].name, viewerRec.x + 8, height, fontSize, FSTCOLOR);
+            
+            int heightOffset = (fontSize * 0.5f);
+            int newFontSize = w*h*0.000013f;
+
+            char cases[64];
+            snprintf(cases, sizeof(cases), "Best Case: %s, Worst Cases: %s", state->algoInfos[i].bestCase, state->algoInfos[i].worstCase);
+            DrawText(cases, viewerRec.x + 8, height + 2.0f * heightOffset, newFontSize, FSTCOLOR);
+
+            char stableness[64];
+            snprintf(stableness, sizeof(stableness), "Stability: %s", state->algoInfos[i].stable);
+            DrawText(stableness, viewerRec.x + 8, height + 3.0f * heightOffset, newFontSize, FSTCOLOR);
+
+            DrawText(state->algoInfos[i].description, viewerRec.x + 8, height + 4.0f * heightOffset, newFontSize, FSTCOLOR);
+
             shown++;
         }
-        pageHeight++; 
+        selectedIndex++; 
     }
 
     //anzeige, welche seite aktuell angezeigt wird
