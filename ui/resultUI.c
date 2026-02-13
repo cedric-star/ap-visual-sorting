@@ -129,15 +129,32 @@ void drawExportButton(int w, int h, AppState* state) {
 
     if (isPressed) {
         char line[256];
-        char* header = "algorithm,arraylength,alldistinct,sorted,ascending,cputime,accesses,repeats\n";
+        char* header = "algorithm,arraylength,alldistinct,sorted,ascending,cputime,accesses,repeats,yyyy-mm-dd-hour:minute\n";
 
+        time_t now = time(NULL);
+        struct tm *t = localtime(&now);
+        char timeStr[64];
+        snprintf(timeStr, sizeof(timeStr), "%d-%d-%d-%d:%d",
+            t->tm_year + 1900,
+            t->tm_mon + 1,
+            t->tm_mday,
+            t->tm_hour,
+            t->tm_min
+        );
+
+        
         FILE *file;
-        file = fopen("mydata.txt", "a");
-        if (file) fprintf(file, "%s", header);//%s dafür, nicht direkt string reintun
-
+        if (access(CSVNAME, F_OK) != 0) {
+            file = fopen(CSVNAME, "a");
+            fprintf(file, "%s", header);//%s dafür, nicht direkt string reintun        
+        } else {
+            file = fopen(CSVNAME, "a");
+        }
+        
+        
         for (int i = 0; i < state->algoNum; i++) {
 
-            snprintf(line, sizeof(line), "%s,%d,%s,%s,%s,%lf,%ld,%ld\n",
+            snprintf(line, sizeof(line), "%s,%d,%s,%s,%s,%lf,%ld,%ld,%s\n",
                 state->algos[i].name,
                 state->algos[i].list->absLength,
                 state->allDistinct ? "true" : "false",
@@ -145,7 +162,9 @@ void drawExportButton(int w, int h, AppState* state) {
                 state->allDistinct ? "true" : "false",  //muss ascending sein
                 state->algos[i].time,
                 state->algos[i].accesses,
-                state->algos[i].repeats);
+                state->algos[i].repeats,
+                timeStr
+            );
             
             fprintf(file, "%s", line); //%s dafür, nicht direkt string reintun
         }

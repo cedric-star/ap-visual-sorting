@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #define MAXARNUM 25
+#define CSVNAME "mydata.csv"
 
 typedef struct {
     unsigned char id;

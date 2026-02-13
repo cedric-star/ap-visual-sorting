@@ -5,7 +5,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <time.h>
 #include <string.h>
+#include <unistd.h>
 #include <math.h>
 #include "../core/core.h"
 

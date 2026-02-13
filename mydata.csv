@@ -1,0 +1,5 @@
+algorithm,arraylength,alldistinct,sorted,ascending,cputime,accesses,repeats,yyyy-mm-dd-hour:minute
+Bubblesort,100,false,false,false,0.150015,7314,89,2026-2-13-15:51
+Selectionsort,100,false,false,false,0.002643,5148,99,2026-2-13-15:51
+Insertionsort,100,false,false,false,0.045648,4975,99,2026-2-13-15:51
+Shellsort,100,false,false,false,0.011813,2012,6,2026-2-13-15:51
