@@ -42,13 +42,13 @@ void drawSortViewer(int w, int h, AppState* state) {
 
             char cases[64];
             snprintf(cases, sizeof(cases), "Best Case: %s, Worst Cases: %s", state->algoInfos[i].bestCase, state->algoInfos[i].worstCase);
-            DrawText(cases, viewerRec.x + 8, height + newFontSize + heightOffset, newFontSize, FSTCOLOR);
+            DrawText(cases, viewerRec.x + 8, height + 2.0f * heightOffset, newFontSize, FSTCOLOR);
 
             char stableness[64];
             snprintf(stableness, sizeof(stableness), "Stability: %s", state->algoInfos[i].stable);
-            DrawText(stableness, viewerRec.x + 8, height + 2.0f * heightOffset, newFontSize, FSTCOLOR);
+            DrawText(stableness, viewerRec.x + 8, height + 3.0f * heightOffset, newFontSize, FSTCOLOR);
 
-            DrawText(state->algoInfos[i].description, viewerRec.x + 8, height + 3.0f * heightOffset, newFontSize, FSTCOLOR);
+            DrawText(state->algoInfos[i].description, viewerRec.x + 8, height + 4.0f * heightOffset, newFontSize, FSTCOLOR);
 
             shown++;
         }
