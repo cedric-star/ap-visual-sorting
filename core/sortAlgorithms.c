@@ -14,7 +14,7 @@ void checkOrder(List *p_list, int wait) {
             return;
         }
         p_list->index = i;
-        usleep(wait/2);
+        usleep(wait/4);
     }
     p_list->isFinished = true;
 }
