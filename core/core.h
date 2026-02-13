@@ -36,7 +36,7 @@ typedef struct {
 
     List* list;
     char* name;
-    long time;
+    double time;
     long accesses; //listenzugriffe
     long repeats; //iterationen / rekursionen
     //speichernutzung / allokationen
@@ -74,6 +74,11 @@ typedef struct {
     bool allDistinct; //alle unterschiedlich in unsortierter liste, oder egal
 
 } SortStruct;
+
+typedef struct {
+    time_t   tv_sec;        // seconds 
+    long     tv_nsec;       // nanoseconds
+} timespec;
 
 #include "../ui/ui.h"
 

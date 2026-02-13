@@ -3,7 +3,7 @@
 void drawTitle(int w, int h, AppState* state) {
     Rectangle titleRec = {0, 0, w * 0.4f, h * 0.1f};
     int fontSize = w*0.04f;
-    DrawText("results", spaceRight, 1, fontSize*headerFontMult, FSTCOLOR);
+    DrawText("Results", spaceRight, 1, fontSize*headerFontMult, FSTCOLOR);
     drawOutline(titleRec, 4, FSTCOLOR);
 }
 
@@ -36,13 +36,16 @@ void drawAlgoInfos(int w, int h, AppState* state) {
 
             char accesses[32];
             char repeats[32];
+            char time[32];
             int btnDimension = w*h*0.000027f;
             snprintf(accesses, sizeof(accesses), "Accesses: %ld", state->algos[i].accesses);
             snprintf(repeats, sizeof(repeats), "Repeats: %ld", state->algos[i].repeats);
+            snprintf(time, sizeof(time), "Time elapsed: %lfs", state->algos[i].time);
 
             DrawText(state->algos[i].name, algoRec.x + 16, height, fontSize, FSTCOLOR);
             DrawText(accesses, algoRec.x + 32, height + fontSize, fontSize, FSTCOLOR);
             DrawText(repeats, algoRec.x + 32, height + fontSize*2, fontSize, FSTCOLOR);
+            DrawText(time, algoRec.x + 32, height + fontSize*3, fontSize, FSTCOLOR);
 
             
             shown++;
@@ -100,7 +103,7 @@ void drawExportButton(int w, int h, AppState* state) {
     Rectangle btn = {btnX, btnY, btnWidth, btnHeight};
 
     bool isPressed = false;
-    drawButton(btn, "export", &isPressed, btn.height, FSTCOLOR);
+    drawButton(btn, "Export", &isPressed, btn.height, FSTCOLOR);
 
 
     if (isPressed) {

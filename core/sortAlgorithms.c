@@ -66,11 +66,12 @@ void bubbleSort(MyAlgorithm* algo, int wait) {
     list->isFinished = true;
 }
 
-void selectionSort(MyAlgorithm* algo, int wait) {
+void selectionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     
     List* list;
     int n;
     int minIdx;
+    struct timespec end;
 
     list = algo->list;
     n = list->dynLength;
@@ -88,13 +89,17 @@ void selectionSort(MyAlgorithm* algo, int wait) {
         list->nums[minIdx] = tmp;
         list->index = minIdx;
         usleep(wait);
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     }
 }
 
-void insertionSort(MyAlgorithm* algo, int wait) {
+void insertionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     
     List* list;
     int n;
+    struct timespec end;
 
     list = algo->list;
     n = list->dynLength;
@@ -118,6 +123,10 @@ void insertionSort(MyAlgorithm* algo, int wait) {
         }
         list->nums[i] = currElem;
         usleep(wait/3);
+
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     }
 }
 
@@ -181,38 +190,41 @@ int calcWait(int numsLength) {
 }
 
 void initSort(MyAlgorithm* algo) {
-    
+    struct timespec start, end;
+
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start);
     int waitTime = calcWait(algo->list->dynLength);
 
     switch (algo->id) {
         case 0: simpleSort(algo, waitTime); break;
         case 1: bubbleSort(algo, waitTime); break;
-        case 2: selectionSort(algo, waitTime); break;
-        case 3: insertionSort(algo, waitTime); break;
+        case 2: selectionSort(algo, waitTime, &start); break;
+        case 3: insertionSort(algo, waitTime, &start); break;
         case 4: bogoSort(algo, waitTime); break;
         case 5: shellSort(algo, waitTime); break;
 
         //hier fehlt code
-        case 6: selectionSort(algo, waitTime); break;
-        case 7: selectionSort(algo, waitTime); break;
-        case 8: selectionSort(algo, waitTime); break;
-        case 9: selectionSort(algo, waitTime); break;
-        case 10: selectionSort(algo, waitTime); break;
-        case 11: selectionSort(algo, waitTime); break;
-        case 12: selectionSort(algo, waitTime); break;
-        case 13: selectionSort(algo, waitTime); break;
-        case 14: selectionSort(algo, waitTime); break;
-        case 15: selectionSort(algo, waitTime); break;
-        case 16: selectionSort(algo, waitTime); break;
-        case 17: selectionSort(algo, waitTime); break;
-        case 18: selectionSort(algo, waitTime); break;
-        case 19: selectionSort(algo, waitTime); break;
-        case 20: selectionSort(algo, waitTime); break;
-        case 21: selectionSort(algo, waitTime); break;
-        case 22: selectionSort(algo, waitTime); break;
-        case 23: selectionSort(algo, waitTime); break;
-        case 24: selectionSort(algo, waitTime); break;
         
+        case 6: selectionSort(algo, waitTime, &start); break;
+        case 7: selectionSort(algo, waitTime, &start); break;
+        case 8: selectionSort(algo, waitTime, &start); break;
+        case 9: selectionSort(algo, waitTime, &start); break;
+        case 10: selectionSort(algo, waitTime, &start); break;
+        case 11: selectionSort(algo, waitTime, &start); break;
+        case 12: selectionSort(algo, waitTime, &start); break;
+        case 13: selectionSort(algo, waitTime, &start); break;
+        case 14: selectionSort(algo, waitTime, &start); break;
+        case 15: selectionSort(algo, waitTime, &start); break;
+        case 16: selectionSort(algo, waitTime, &start); break;
+        case 17: selectionSort(algo, waitTime, &start); break;
+        case 18: selectionSort(algo, waitTime, &start); break;
+        case 19: selectionSort(algo, waitTime, &start); break;
+        case 20: selectionSort(algo, waitTime, &start); break;
+        case 21: selectionSort(algo, waitTime, &start); break;
+        case 22: selectionSort(algo, waitTime, &start); break;
+        case 23: selectionSort(algo, waitTime, &start); break;
+        case 24: selectionSort(algo, waitTime, &start); break;
+
     }
 
     checkOrder(algo->list, waitTime);
