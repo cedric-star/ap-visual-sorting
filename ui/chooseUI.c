@@ -194,7 +194,7 @@ void drawStartButton(int w, int h, AppState* state) {
 
     if (isPressed) {
         state->toDraw = 1;
-        state->algoNum = 1;
+        state->algoNum = 0;
 
         int mass = atoi(state->numMaxInput);
         if (mass <= 0 || mass > 1000000) mass = 100;
@@ -207,33 +207,41 @@ void drawStartButton(int w, int h, AppState* state) {
             setRanNums(nums, mass);
         }
 
-        for (int i = 0; i < state->algoNum; i++) {
-            int *newNums = calloc(mass, sizeof(int));
-            memcpy(newNums, nums, mass * sizeof(int));//erstellte liste kopieren
+        int counter = 0;
+        for (int i = 0; i < state->algoInfoNum; i++) {
+            if (state->algoInfos[i].isSelected) {
 
-            //listenstrukt allokieren
-            List* list = malloc(sizeof(List));
-            list->dynLength = mass;
-            list->absLength = mass;
-            list->nums = nums;
-            list->index = 0;
-            list->isFinished = false;
+            
+                int *newNums = calloc(mass, sizeof(int));
+                memcpy(newNums, nums, mass * sizeof(int));//erstellte liste kopieren
 
-            //algorithmus daten platz allokieren
-            MyAlgorithm* algo = malloc(sizeof(MyAlgorithm));
-            algo->id = 5; //hier den passenden algorithmus eintragen
-            algo->list = list;
-            algo->name = "Bubblesort";
-            algo->accesses = 0;
-            algo->repeats = 0;
-            algo->correct = false;
-            algo->time = 0;
+                //listenstrukt allokieren
+                List* list = malloc(sizeof(List));
+                list->dynLength = mass;
+                list->absLength = mass;
+                list->nums = newNums; //hier war nums
+                list->index = 0;
+                list->isFinished = false;
 
-            //liste und algodaten speichern
-            state->algos[i] = *algo;  //kopie
-            state->algos[i].list = list;  //ointer auf heap
+                AlgoInfo info = state->algoInfos[i];
+                //algorithmus daten platz allokieren
+                MyAlgorithm* algo = malloc(sizeof(MyAlgorithm));
+                algo->id = info.id; //hier den passenden algorithmus eintragen
+                algo->list = list;
+                algo->name = info.name;
+                algo->accesses = 0;
+                algo->repeats = 0;
+                algo->correct = false;
+                algo->time = 0;
 
-            pthread_create(&state->threads[i], NULL, myThread, algo);
+                //liste und algodaten speichern
+                state->algos[counter] = *algo;  //kopie
+                state->algos[counter].list = list;  //ointer auf heap
+
+                state->algoNum++;
+                pthread_create(&state->threads[counter], NULL, myThread, algo);
+                counter ++;
+            }
         }
     }
 }

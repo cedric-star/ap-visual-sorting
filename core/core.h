@@ -50,7 +50,7 @@ typedef struct {
     int toDraw; //welches fenster soll gezeichnet werden
     bool allDistinct;
     MyAlgorithm algos[16];
-    int algoNum;
+    int algoNum; //ausgewählte sortieralgorithmen;
     pthread_t threads[16];
     AlgoInfo* algoInfos;
     int algoInfoNum;

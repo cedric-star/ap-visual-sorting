@@ -46,19 +46,7 @@ int main(void) {
 
         switch (state.toDraw) {
             case 0: drawChooseUI(sWidth, sHeight, &state); break;
-            case 1: 
-                Rectangle dia = {0, 0, sWidth, sHeight};
-                int finishedCounter;
-                for (int i = 0; i < state.algoNum; i++) { 
-                    createDiagram(dia, state.algos[i].list);
-                    if(state.algos[i].list->isFinished) {
-                        finishedCounter++;
-                    }
-                }
-                if(finishedCounter >= state.algoNum) {
-                    state.toDraw = 2;
-                }
-                break;
+            case 1: drawDiagramsUI((float) sWidth, (float) sHeight, &state); break;
             case 2: drawResultUI(sWidth, sHeight, &state); break;
         }
         

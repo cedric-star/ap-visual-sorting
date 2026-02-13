@@ -40,5 +40,5 @@ void createDiagram(Rectangle box, List* list) {
         }
 
     }
-    drawOutline(box, 4, PINK);
+    drawOutline(box, 2, SNDCOLOR);
 }
