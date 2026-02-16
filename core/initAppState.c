@@ -167,7 +167,7 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
 
         // Selectionsort
     algoInfos[10].id = 10;
-    algoInfos[10].name = "Selectionsort";
+    algoInfos[10].name = "Stalinsort";
     algoInfos[10].description = "Selection Sort beginnt stets mit dem "
     "ersten Element der Liste. Das Startelement wird als Minimum eingespeichert. "
     "Bei jedem Durchlauf werden alle Elemente der Liste mit dem Minimum verglichen. "

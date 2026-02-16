@@ -463,6 +463,34 @@ void mergeSortWrapper(MyAlgorithm* algo, int wait, struct timespec* start) {
 
 }
 
+void stalinSort(MyAlgorithm* algo, int wait, struct timespec* start) {
+    struct timespec end;
+    int max = 0;
+    int len = algo->list->absLength;
+    int itemSize = sizeof(algo->list->nums[0]);
+    algo->accesses += 1;
+    int* tempArr = calloc(len, itemSize);
+
+    for (int i = 0; i < len; i++) {
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
+        algo->accesses += 1;
+        if (algo->list->nums[i] >= max) {
+            max = algo->list->nums[i];
+            algo->accesses += 1;
+        } else {
+            //len--;
+            algo->list->nums[i] = 0;
+            algo->accesses += 1;
+        }
+        usleep(wait);
+        algo->repeats += 1;
+    }
+
+    algo->list->isFinished = true;
+ 
+}
 
 int calcWait(int numsLength) {
     //Berechnet die Länge der Wartezeit in µs
@@ -498,7 +526,7 @@ void initSort(MyAlgorithm* algo) {
         case 7: bucketSort(algo, waitTime, &start); break;
         case 8: quickSortWrapper(algo, waitTime, &start); break;
         case 9: mergeSortWrapper(algo, waitTime, &start); break;
-        case 10: selectionSort(algo, waitTime, &start); break;
+        case 10: stalinSort(algo, waitTime, &start); break;
         case 11: selectionSort(algo, waitTime, &start); break;
         case 12: selectionSort(algo, waitTime, &start); break;
         case 13: selectionSort(algo, waitTime, &start); break;
@@ -516,5 +544,5 @@ void initSort(MyAlgorithm* algo) {
 
     }
 
-    checkOrder(algo->list, waitTime);
+    if (algo->id != 10) checkOrder(algo->list, waitTime);
 }
