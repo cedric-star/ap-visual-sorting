@@ -314,7 +314,7 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     
     int idx;
     int n = list->dynLength;
-    int bucketNum = n/2; //Anzahl der Buckets basierend auf der Listengröße
+    int bucketNum = sqrt(n); //Anzahl der Buckets basierend auf der Listengröße
     
     Bucket* buckets = (Bucket*)malloc(bucketNum * sizeof(Bucket));
 
@@ -366,7 +366,6 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
         }
     }
-
 }
 
 void quickSort(MyAlgorithm* algo, int* arr, int left, int right, int wait, struct timespec* start) {
