@@ -375,13 +375,16 @@ void quickSort(MyAlgorithm* algo, int* arr, int left, int right, int wait, struc
     algo->time = (end.tv_sec - start->tv_sec);
     algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     algo->repeats += 1;
+
     if (left < right) {
+        //pivot index auf hinterstes element setzen
         int pivot = arr[right];
         algo->accesses += 1;
         algo->list->index = right;
         
         int i = left - 1;
         
+        //unterlisten aufteilen in links und rechnts (nach größe)
         for (int j = left; j < right; j++) {
             algo->list->index = j;
             algo->accesses += 1;
@@ -403,6 +406,7 @@ void quickSort(MyAlgorithm* algo, int* arr, int left, int right, int wait, struc
         
         
         usleep(wait);
+        //rekursiv erneut aufrufen, abbruch wenn links >= rechts (liste aus einem element)
         quickSort(algo, arr, left, pivotIndex - 1, wait, start);
         quickSort(algo, arr, pivotIndex + 1, right, wait, start);
     }
@@ -413,30 +417,36 @@ void quickSortWrapper(MyAlgorithm* algo, int wait, struct timespec* start) {
     int* arr = algo->list->nums;  
     int length = list->absLength; 
     
+    //ruft eigentlichen quicksort mit linken und rechtem außenelementindex auf
     quickSort(algo, arr, 0, length - 1, wait, start); 
     algo->list->isFinished = true;
 }
 
+//führt teilarrays zusammen
 void merge(MyAlgorithm* algo, int* arr, int left, int mid, int right, int wait, struct timespec* start) {
     struct timespec end;
     algo->repeats += 1;
     usleep(wait);
     
+    //teilgrößen  berechnen
     int n1 = mid - left + 1;
     int n2 = right - mid;
 
+    //temporäre arrays 
     int leftArr[n1];
     int rightArr[n2];
     algo->accesses += 2;
 
     int i = 0;
     int j = 0;
+    //linkes teilarray kopieren
     for (i; i < n1; i++) {
         leftArr[i] = arr[left + i];
         algo->list->index = left + i;
         algo->accesses += 2;
     }
 
+    //rechtes teilarray kopieren
     for (j; j < n2; j++) {
         rightArr[j] = arr[mid + 1 + j];
         algo->list->index = mid + 1 + j;
@@ -446,6 +456,7 @@ void merge(MyAlgorithm* algo, int* arr, int left, int mid, int right, int wait, 
     int k = left;
     i = 0;
     j = 0;
+    //kleineres element aus beiden arrays nehmen
     while (i < n1 && j < n2) {
         algo->accesses += 2;
         if (leftArr[i] <= rightArr[j]) {
@@ -460,6 +471,7 @@ void merge(MyAlgorithm* algo, int* arr, int left, int mid, int right, int wait, 
         k++;
     }
 
+    //restliche elemente aus linkem array kopieren
     while (i < n1) {
         arr[k] = leftArr[i];
         algo->accesses += 2;
@@ -467,6 +479,7 @@ void merge(MyAlgorithm* algo, int* arr, int left, int mid, int right, int wait, 
         k++;
     }
 
+    //restliche elemente aus rechtem array kopieren
     while (j < n2) {
         arr[k] = rightArr[j];
         algo->accesses += 2;
@@ -484,6 +497,7 @@ void mergeSort(MyAlgorithm* algo, int* arr, int left, int right, int wait, struc
     if (left < right) {
         int mid = left + (right - left) / 2;
 
+        //anders als quicksort: zuerst rekursionsschritt, dann mergen (zusammenführen) in der rekursion
         mergeSort(algo, arr, left, mid, wait, start);
         mergeSort(algo, arr, mid + 1, right, wait, start); 
         merge(algo, arr, left, mid, right, wait, start);
@@ -491,8 +505,8 @@ void mergeSort(MyAlgorithm* algo, int* arr, int left, int right, int wait, struc
 }
 
 void mergeSortWrapper(MyAlgorithm* algo, int wait, struct timespec* start) {
+    //merge sort aufrufen mit linkem, rechtem element und eigentlichem array
     mergeSort(algo, algo->list->nums, 0, algo->list->absLength - 1, wait, start);
-
 }
 
 void stalinSort(MyAlgorithm* algo, int wait, struct timespec* start) {
@@ -503,15 +517,18 @@ void stalinSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     algo->accesses += 1;
     int* tempArr = calloc(len, itemSize);
 
+    //ein schleifendurchlauf über gesamten array
     for (int i = 0; i < len; i++) {
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
         algo->time = (end.tv_sec - start->tv_sec);
         algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
         algo->accesses += 1;
+
+        //wenn aktuelle zahl >= stalin ist behalten und neues max setzen
         if (algo->list->nums[i] >= max) {
             max = algo->list->nums[i];
             algo->accesses += 1;
-        } else {
+        } else {//wenn nicht löschen (auf 0 für visualisierung)
             //len--;
             algo->list->nums[i] = 0;
             algo->accesses += 1;
@@ -521,7 +538,6 @@ void stalinSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     }
 
     algo->list->isFinished = true;
- 
 }
 
 int calcWait(int numsLength) {
