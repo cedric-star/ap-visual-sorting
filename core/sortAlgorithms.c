@@ -162,14 +162,19 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     list = algo->list;
     int n = list->dynLength;
 
-    //durchlaufe sequentiell die einzelnen Gap-Folgen
-    //hier wird keine ideale Gap-Sequenz vewendet
-    for(int gap = n/2; gap > 0; gap /= 2) {
+    int gap = 1;
+    while (gap < n/3) gap = gap * 3 + 1; //Knuth-Sequenz
+
+    //durchlaufe sequentiell die Gap-Folge
+    while (gap > 0) {
+        algo->repeats += 1;
+
         for(int i = gap; i < n; i++) {
             int temp = list->nums[i];
             int j = i;
 
-            while (j >= gap && list->nums[j - gap] > temp) {
+            while (j >= gap) {
+                if(list->nums[j - gap] <= temp) break;
                 list->nums[j] = list->nums[j - gap];
                 j -= gap;
 
@@ -179,17 +184,18 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             list->nums[j] = temp;
             list->index = j; 
 
-            algo->accesses += 3;
+            algo->accesses += 2;
 
-            //Zeitmessung
-            usleep(wait/2);
-            clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
-            algo->time = (end.tv_sec - start->tv_sec);
-            algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
+            usleep(wait/4);
         }
-        algo->repeats += 1;
+        
+        gap = (gap - 1) / 3; //Knuth-Sequenz rückwärts durchlaufen
 
-        usleep(wait/2);
+        //Zeitmessung
+        usleep(wait/4);
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     }
 }
 
@@ -314,8 +320,9 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     
     int idx;
     int n = list->dynLength;
-    int bucketNum = sqrt(n); //Anzahl der Buckets basierend auf der Listengröße
-    
+    int bucketNum = n/10; //Anzahl der Buckets basierend auf der Listengröße
+    if(bucketNum > 2000) bucketNum = 2000;
+
     Bucket* buckets = (Bucket*)malloc(bucketNum * sizeof(Bucket));
 
     //Initialisiere alle Buckets

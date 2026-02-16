@@ -34,16 +34,15 @@ typedef struct {
     // 0 -> test
     // 1 -> bubblesort
     // 2 -> quicksort
+    // 3 -> ...
 
     List* list;
     char* name;
-    double time;
-    long accesses; //listenzugriffe
-    long repeats; //iterationen / rekursionen
-    //speichernutzung / allokationen
-    //cpu auslastung
+    double time; //Thread-Zeit
+    long accesses; //Listenzugriffe
+    long repeats; //Iterationen/Rekursionen
 
-    bool correct; //ist sortierung korekt?
+    bool correct; //Ist sortierung korekt? (derzeit unbenutzt)
 } MyAlgorithm;
 
 
