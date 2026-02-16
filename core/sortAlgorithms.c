@@ -4,7 +4,6 @@
 
 #include "core.h"
 
-//#define wait 10000
 #define baseWait 30000000 //30s
 
 typedef struct {
@@ -13,6 +12,7 @@ typedef struct {
   int capacity;
 } Bucket;
 
+//Überprüfung der Sortierung; inklusive Visualisierung
 void checkOrder(List *p_list, int wait) {
     for(int i = 1; i < p_list->dynLength; i++) {
         if(p_list->nums[i] < p_list->nums[i-1]) {
@@ -25,11 +25,12 @@ void checkOrder(List *p_list, int wait) {
     p_list->isFinished = true;
 }
 
+//##### SORTIERALGORITHMEN #####
+
 void bubbleSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     struct timespec end;
-    
-    int swapped = 1;
     List* list = algo->list;
+    int swapped = 1;
 
     while (swapped && list->dynLength-- > 0)
     {  
@@ -43,10 +44,13 @@ void bubbleSort(MyAlgorithm* algo, int wait, struct timespec* start) {
                 list->nums[i+1] = temp;
                 swapped = 1;
 
-                algo->accesses += 3;
+                algo->accesses += 4;
             }
             list->index = i;
 
+            algo->accesses += 1;
+
+            //Zeitmessung
             usleep(wait/10);
             clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
             algo->time = (end.tv_sec - start->tv_sec);
@@ -54,18 +58,17 @@ void bubbleSort(MyAlgorithm* algo, int wait, struct timespec* start) {
         }
         algo->repeats += 1;
     }
-    list->isFinished = true;
 }
 
 void selectionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
-    
-    List* list;
+    struct timespec end;
+    List* list = algo->list;
     int n;
     int minIdx;
-    struct timespec end;
-
-    list = algo->list;
+    int tmp;
+    
     n = list->dynLength;
+    
     for(int i = 0; i < n - 1; i++) {
         minIdx = i;
 
@@ -75,14 +78,15 @@ void selectionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             }
             algo->accesses += 1;
         }
-        int tmp = list->nums[i];
+        tmp = list->nums[i];
         list->nums[i] = list->nums[minIdx];
         list->nums[minIdx] = tmp;
         list->index = minIdx;
 
         algo->repeats += 1;
-        algo->accesses += 2;
+        algo->accesses += 4;
 
+        //Zeitmessung
         usleep(wait);
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
         algo->time = (end.tv_sec - start->tv_sec);
@@ -91,17 +95,14 @@ void selectionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 }
 
 void insertionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
-    
+    struct timespec end;
     List* list;
     int n;
-    struct timespec end;
-
+    
     list = algo->list;
     n = list->dynLength;
 
     for(int bound = 1; bound < n; bound++) {
-        
-        
         int currElem = list->nums[bound];
         int i = bound;
 
@@ -113,14 +114,15 @@ void insertionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             i = i - 1;
 
             list->index = i;
-            algo->accesses += 2;
+            algo->accesses += 3;
             usleep(wait/3);
         }
         list->nums[i] = currElem;
 
         algo->repeats += 1;
-        algo->accesses += 1;
+        algo->accesses += 2;
 
+        //Zeitmessung
         usleep(wait/3);
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
         algo->time = (end.tv_sec - start->tv_sec);
@@ -129,26 +131,24 @@ void insertionSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 }
 
 void bogoSort(MyAlgorithm* algo, int wait, struct timespec* start) {
-    
-    
     struct timespec end;
-    List* list;
-    list = algo->list;
+    List* list = algo->list;
 
     checkOrder(list, wait/2);
-    algo->accesses += list->dynLength;
+    algo->accesses += list->dynLength; //Zugriffe in checkOrder; Durchschn.
     if(list->isFinished) return;
 
     while(true) {
         shuffleNums(list->nums, (list->dynLength));
         checkOrder(list, wait/2);
-        if(list->isFinished == true) {
+        if(list->isFinished) {
             break;
         }
 
         algo->repeats += 1;
         algo->accesses += list->dynLength * 2;
 
+        //Zeitmessung
         usleep(wait/2);
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
         algo->time = (end.tv_sec - start->tv_sec);
@@ -158,11 +158,12 @@ void bogoSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 
 void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     struct timespec end;
-
     List* list;
     list = algo->list;
     int n = list->dynLength;
 
+    //durchlaufe sequentiell die einzelnen Gap-Folgen
+    //hier wird keine ideale Gap-Sequenz vewendet
     for(int gap = n/2; gap > 0; gap /= 2) {
         for(int i = gap; i < n; i++) {
             int temp = list->nums[i];
@@ -171,13 +172,16 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
             while (j >= gap && list->nums[j - gap] > temp) {
                 list->nums[j] = list->nums[j - gap];
                 j -= gap;
+
+                algo->accesses += 2;
             }
 
             list->nums[j] = temp;
             list->index = j; 
 
-            algo->accesses += 4;
+            algo->accesses += 3;
 
+            //Zeitmessung
             usleep(wait/2);
             clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
             algo->time = (end.tv_sec - start->tv_sec);
@@ -189,22 +193,25 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     }
 }
 
+//Hilfsfunktion zum Heapsort
+//stellt einen Heap vom angegebenen Knoten her
+//stellt sicher, dass der Heap seine Eigenschaften einhält
 void heapify(MyAlgorithm* algo, int n, int i, int wait, struct timespec* start) {
     struct timespec end;
-    List* list;
+    List* list = algo->list;
     
-    int biggestIndex = i;
-    int leftNodeIndex = 2 * i + 1; //Index des linken Kind-Knotens
-    int rightNodeIndex = 2 * i + 2; //Index des rechten Kind-Knotens
-    list = algo->list;
+    int biggestIndex = i; //Index des Elternknotens; größter Index des betrachteten Subbaums
+    int leftNodeIndex = 2 * i + 1; //Index des linken Kind-Knotens bestimmen
+    int rightNodeIndex = 2 * i + 2; //Index des rechten Kind-Knotens bestimmen
+    int* nums = list->nums;
+    
+    list->index = biggestIndex; 
 
+    //Zeitmessung
     usleep(wait/4);
     clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
     algo->time = (end.tv_sec - start->tv_sec);
     algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
-
-    int* nums = list->nums;
-    list->index = biggestIndex; 
 
     if(leftNodeIndex < n && nums[leftNodeIndex] > nums[biggestIndex]) {
         biggestIndex = leftNodeIndex;
@@ -214,55 +221,64 @@ void heapify(MyAlgorithm* algo, int n, int i, int wait, struct timespec* start) 
         biggestIndex = rightNodeIndex;
     }
 
-    algo->accesses += 1;
+    algo->accesses += 4;
 
     if(biggestIndex != i) {
         int temp = nums[i];
         nums[i] = nums[biggestIndex];
         nums[biggestIndex] = temp;
 
+        algo->accesses += 4;
 
         heapify(algo, n, biggestIndex, wait, start);
     }
 }
 
 void heapSort(MyAlgorithm* algo, int wait, struct timespec* start) {
-    
     struct timespec end;
-    List* list;
-    list = algo->list;
+    List* list = algo->list;
     int n = list->dynLength;
 
-    //beginne vom letzten möglichen Elternknoten
-    for(int i = n/2 - 2; i >= 0; i--) {
+    //beginne vom letzten möglichen Elternknoten mit Heapify
+    for(int i = n/2 - 1; i >= 0; i--) {
         list->index = i; 
+        algo->repeats += 1;
         usleep(wait/4);
 
         heapify(algo, n, i, wait, start);
     }
 
+    //baue finale Liste aus dem Heap auf
     for(int i = n - 1; i > 0; i--) {
         list->index = i; 
-        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
-        algo->time = (end.tv_sec - start->tv_sec);
-        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
 
         int temp = list->nums[0];
         list->nums[0] = list->nums[i];
         list->nums[i] = temp;
 
-        algo->repeats += 2;
-        heapify(algo, i, 0, wait, start);
+        algo->accesses += 4;
+
+        //Zeitmessung
+        clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
+        algo->time = (end.tv_sec - start->tv_sec);
+        algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
         usleep(wait/4);
+
+        //Wiederherstellen des Heaps nach Austausch des Elements
+        heapify(algo, i, 0, wait, start);
     }
 }
 
+//Hilfsfunktion zum Bucketsort
+//Initialisiert einen Bucket
 void initBucket(Bucket* bucket, int initCapacity) {
     bucket->elements = (int*) malloc(initCapacity * sizeof(int));
     bucket->size = 0;
     bucket->capacity = initCapacity;
 }
 
+//Hilfsfunktion zum Bucketsort
+//Fügt ein Element zum Bucket hinzu.
 void addToBucket(Bucket* bucket, int val) {
     if (bucket->size >= bucket->capacity) {
     bucket->capacity *= 2;
@@ -272,6 +288,9 @@ void addToBucket(Bucket* bucket, int val) {
     bucket->elements[bucket->size++] = val;
 }
 
+//Hilfsfunktion zum Bucketsort
+//Implementierung des Selectionssorts, jedoch mit weniger Parameter für die Anwendung beim
+// Sortieren der Buckets
 void bucketSelectionSort(int arr[], int n, int wait) {
     for (int i = 0; i < n - 1; i++) {
         int minIndex = i;
@@ -291,44 +310,57 @@ void bucketSelectionSort(int arr[], int n, int wait) {
 
 void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     struct timespec end;
-    List* list;
-    list = algo->list;
+    List* list = algo->list;
+    
+    int idx;
     int n = list->dynLength;
-    int bucketNum = n/2;
+    int bucketNum = n/2; //Anzahl der Buckets basierend auf der Listengröße
     
     Bucket* buckets = (Bucket*)malloc(bucketNum * sizeof(Bucket));
 
+    //Initialisiere alle Buckets
     for(int i = 0; i < bucketNum; ++i) {
-        initBucket(&buckets[i],10);
+        initBucket(&buckets[i], 10);
     }
 
+    //Fülle die Buckets mit den korrespondierenden Elementen der Liste
     for(int i = 0; i < n; ++i) {
-        usleep(wait/4);
-        list->index = i; 
-        int bucketIdx = (bucketNum * list->nums[i]) / (n-1);
-        if(bucketIdx >= bucketNum) bucketIdx = bucketNum - 1;
+        int bucketIdx = (bucketNum * list->nums[i]) / (n-1); //normalisiere Zahlen der Liste für den Bucketindex
+        if(bucketIdx >= bucketNum) bucketIdx = bucketNum - 1; //füge zusätzliche Elemente in den letzten Bucket
         addToBucket(&buckets[bucketIdx], list->nums[i]);
 
+        list->index = i;
+        algo->accesses += 2; 
+
+        //Zeitmessung
+        usleep(wait/4);
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
         algo->time = (end.tv_sec - start->tv_sec);
         algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     }
 
+    //Sortiere alle Buckets in sich selbst
     for(int i = 0; i < bucketNum; i++) {
         usleep(wait/4);
         if(buckets[i].size > 0) {
             bucketSelectionSort(buckets[i].elements, buckets[i].size, wait);
         }
+        algo->repeats += 1;
     }
 
-    int idx = 0;
+    //Füge die Elemente aus den Buckets in die Liste ein
+    idx = 0;
     for(int i = 0; i < bucketNum; i++) {
         usleep(wait/4);
-        list->index = i; 
         for(int j = 0; j < buckets[i].size; j++) {
-            usleep(wait/4);
+
+            list->index = idx; 
             list->nums[idx++] = buckets[i].elements[j];
 
+            algo->accesses += 1;
+
+            //Zeitmessung
+            usleep(wait/4);
             clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
             algo->time = (end.tv_sec - start->tv_sec);
             algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
