@@ -338,26 +338,30 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 }
 
 void quickSort(MyAlgorithm* algo, int* arr, int left, int right, int wait) {
+    algo->repeats += 1;
     if (left < right) {
         int pivot = arr[right];
+        algo->accesses += 1;
         algo->list->index = right;
         
         int i = left - 1;
         
         for (int j = left; j < right; j++) {
             algo->list->index = j;
+            algo->accesses += 1;
             if (arr[j] <= pivot) {
                 i++;
                 int temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
+                algo->accesses += 3;
             }
         }
         
         int temp = arr[i + 1];
         arr[i + 1] = arr[right];
         arr[right] = temp;
-        
+        algo->accesses += 3;        
         int pivotIndex = i + 1;
         
         

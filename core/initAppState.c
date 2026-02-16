@@ -138,17 +138,14 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
    // Quicksort
     algoInfos[8].id = 8;
     algoInfos[8].name = "Quicksort";
-    algoInfos[8].description = "Selection Sort beginnt stets mit dem "
-    "ersten Element der Liste. Das Startelement wird als Minimum eingespeichert. "
-    "Bei jedem Durchlauf werden alle Elemente der Liste mit dem Minimum verglichen. "
-    "Am Ende der Liste angekommen, wird das Minimum am Anfang der Liste platziert und beim "
-    "nächsten Durchlauf aus der Liste ausgelassen.\n"
-    "Link: https://publications.scss.tcd.ie/tech-reports/reports.05/TCD-CS-2005-57.pdf ";
+    algoInfos[8].description = "Quicksort teilt den Array pro Rekursionsdurchlauf in zwei Arrays, links und rechts\n"
+    "eines so genannten pivot-Punktes. Alle Elemente kleiner werden in den linken, und größer in den rechten Array\n"
+    "einsortiert. Beim letzten Rekursionsdurchlauf werden dann alle Elemente korekt einsortiert.";
     algoInfos[8].worstCase = "O(n²)";
-    algoInfos[8].averageCase = "O(n²)";
-    algoInfos[8].bestCase = "O(n²)";
-    algoInfos[8].stable = "unknown";
-    algoInfos[8].isSelected = false;
+    algoInfos[8].averageCase = "O(n log n)";
+    algoInfos[8].bestCase = "O(n log n)";
+    algoInfos[8].stable = "nein";
+    algoInfos[8].isSelected = true;
 
 
 //hier fehlt code
