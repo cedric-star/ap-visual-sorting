@@ -242,6 +242,7 @@ void heapSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     //beginne vom letzten möglichen Elternknoten mit Heapify
     for(int i = n/2 - 1; i >= 0; i--) {
         list->index = i; 
+        algo->repeats += 1;
         usleep(wait/4);
 
         heapify(algo, n, i, wait, start);
@@ -255,7 +256,7 @@ void heapSort(MyAlgorithm* algo, int wait, struct timespec* start) {
         list->nums[0] = list->nums[i];
         list->nums[i] = temp;
 
-        algo->repeats += 4;
+        algo->accesses += 4;
 
         //Zeitmessung
         clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
@@ -269,7 +270,7 @@ void heapSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 }
 
 //Hilfsfunktion zum Bucketsort
-//
+//Initialisiert einen Bucket
 void initBucket(Bucket* bucket, int initCapacity) {
     bucket->elements = (int*) malloc(initCapacity * sizeof(int));
     bucket->size = 0;
@@ -309,8 +310,9 @@ void bucketSelectionSort(int arr[], int n, int wait) {
 
 void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
     struct timespec end;
-    List* list;
-    list = algo->list;
+    List* list = algo->list;
+    
+    int idx;
     int n = list->dynLength;
     int bucketNum = n/2; //Anzahl der Buckets basierend auf der Listengröße
     
@@ -318,16 +320,17 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 
     //Initialisiere alle Buckets
     for(int i = 0; i < bucketNum; ++i) {
-        initBucket(&buckets[i],10);
+        initBucket(&buckets[i], 10);
     }
 
     //Fülle die Buckets mit den korrespondierenden Elementen der Liste
     for(int i = 0; i < n; ++i) {
-        int bucketIdx = (bucketNum * list->nums[i]) / (n-1);
-        if(bucketIdx >= bucketNum) bucketIdx = bucketNum - 1;
+        int bucketIdx = (bucketNum * list->nums[i]) / (n-1); //normalisiere Zahlen der Liste für den Bucketindex
+        if(bucketIdx >= bucketNum) bucketIdx = bucketNum - 1; //füge zusätzliche Elemente in den letzten Bucket
         addToBucket(&buckets[bucketIdx], list->nums[i]);
 
-        list->index = i; 
+        list->index = i;
+        algo->accesses += 2; 
 
         //Zeitmessung
         usleep(wait/4);
@@ -336,21 +339,28 @@ void bucketSort(MyAlgorithm* algo, int wait, struct timespec* start) {
         algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
     }
 
+    //Sortiere alle Buckets in sich selbst
     for(int i = 0; i < bucketNum; i++) {
         usleep(wait/4);
         if(buckets[i].size > 0) {
             bucketSelectionSort(buckets[i].elements, buckets[i].size, wait);
         }
+        algo->repeats += 1;
     }
 
-    int idx = 0;
+    //Füge die Elemente aus den Buckets in die Liste ein
+    idx = 0;
     for(int i = 0; i < bucketNum; i++) {
         usleep(wait/4);
-        list->index = i; 
         for(int j = 0; j < buckets[i].size; j++) {
-            usleep(wait/4);
+
+            list->index = idx; 
             list->nums[idx++] = buckets[i].elements[j];
 
+            algo->accesses += 1;
+
+            //Zeitmessung
+            usleep(wait/4);
             clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end);
             algo->time = (end.tv_sec - start->tv_sec);
             algo->time += (end.tv_nsec - start->tv_nsec) / 1000000000.0;
