@@ -179,6 +179,53 @@ void shellSort(MyAlgorithm* algo, int wait, struct timespec* start) {
 }
 
 
+void quickSort(MyAlgorithm* algo, int* arr, int left, int right, int wait) {
+    if (left < right) {
+        // Select pivot (using rightmost element)
+        int pivot = arr[right];
+        algo->list->index = right;
+        
+        // Index of smaller element
+        int i = left - 1;
+        
+        // Partition the array
+        for (int j = left; j < right; j++) {
+            algo->list->index = j;
+            if (arr[j] <= pivot) {
+                i++;
+                // Swap arr[i] and arr[j]
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        
+        // Place pivot in correct position
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[right];
+        arr[right] = temp;
+        
+        int pivotIndex = i + 1;
+        
+        // Recursively sort elements before and after pivot
+        usleep(wait*1000);
+        quickSort(algo, arr, left, pivotIndex - 1, wait);
+        quickSort(algo, arr, pivotIndex + 1, right, wait);
+    }
+}
+
+void quickSortWrapper(MyAlgorithm* algo, int wait, struct timespec* start) {
+    struct timespec end;
+    List* list = algo->list;  // Assuming there's a list pointer
+    int* arr = algo->list->nums;  // Array to sort
+    int length = list->absLength;  // Length of the array
+    
+    quickSort(algo, arr, 0, length - 1, wait);  // Sort the entire array
+    
+    // Rest of your timing/waiting logic here
+}
+
+
 int calcWait(int numsLength) {
     //Berechnet die Länge der Wartezeit in µs
     //Vgl.: 1s  = 1.000.000 µs
@@ -208,11 +255,13 @@ void initSort(MyAlgorithm* algo) {
         case 2: selectionSort(algo, waitTime, &start); break;
         case 3: insertionSort(algo, waitTime, &start); break;
         case 4: bogoSort(algo, waitTime, &start); break;
-        case 5: shellSort(algo, waitTime, &start); break;
+        case 5: quickSortWrapper(algo, waitTime, &start); break;
+        case 6: shellSort(algo, waitTime, &start); break;
+
+
 
         //hier fehlt code
         
-        case 6: selectionSort(algo, waitTime, &start); break;
         case 7: selectionSort(algo, waitTime, &start); break;
         case 8: selectionSort(algo, waitTime, &start); break;
         case 9: selectionSort(algo, waitTime, &start); break;

@@ -102,14 +102,9 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
     algoInfos[4].stable = "nein";
     algoInfos[4].isSelected = false;
 
-
-
-
-    //////////////////////////////////////////
-    //hier fehlt code (algodaten sind nur platzhalte/temporär)
-        // Selectionsort
+    // Quicksort
     algoInfos[5].id = 5;
-    algoInfos[5].name = "Shellsort";
+    algoInfos[5].name = "Quicksort";
     algoInfos[5].description = "Selection Sort beginnt stets mit dem "
     "ersten Element der Liste. Das Startelement wird als Minimum eingespeichert. "
     "Bei jedem Durchlauf werden alle Elemente der Liste mit dem Minimum verglichen. "
@@ -122,9 +117,9 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
     algoInfos[5].stable = "unknown";
     algoInfos[5].isSelected = false;
 
-        // Selectionsort
+            // Selectionsort
     algoInfos[6].id = 6;
-    algoInfos[6].name = "Selectionsort";
+    algoInfos[6].name = "Shellsort";
     algoInfos[6].description = "Selection Sort beginnt stets mit dem "
     "ersten Element der Liste. Das Startelement wird als Minimum eingespeichert. "
     "Bei jedem Durchlauf werden alle Elemente der Liste mit dem Minimum verglichen. "
@@ -136,6 +131,15 @@ void initAlgoInfos(AlgoInfo *algoInfos) {
     algoInfos[6].bestCase = "O(n²)";
     algoInfos[6].stable = "unknown";
     algoInfos[6].isSelected = false;
+
+
+
+
+
+    //////////////////////////////////////////
+    //hier fehlt code (algodaten sind nur platzhalte/temporär)
+
+
 
         // Selectionsort
     algoInfos[7].id = 7;
