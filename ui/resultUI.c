@@ -158,8 +158,8 @@ void drawExportButton(int w, int h, AppState* state) {
                 state->algos[i].name,
                 state->algos[i].list->absLength,
                 state->allDistinct ? "true" : "false",
-                state->allDistinct ? "true" : "false", //muss sorted sein
-                state->allDistinct ? "true" : "false",  //muss ascending sein
+                state->sorted ? "true" : "false",
+                state->descending ? "true" : "false", 
                 state->algos[i].time,
                 state->algos[i].accesses,
                 state->algos[i].repeats,

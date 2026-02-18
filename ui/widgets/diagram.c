@@ -32,7 +32,7 @@ void createDiagram(Rectangle box, List* list) {
         if (list->isFinished) c = GRAY;
         else if (i == list->index) c = RED;
         else c = LIGHTGRAY;
-        DrawRectangle(x, y, barWidth, barHeight, c);
+        DrawRectangle(x, y, barWidth+1, barHeight, c);
     }
     drawOutline(box, 2, SNDCOLOR);
 }
