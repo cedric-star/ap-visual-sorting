@@ -19,13 +19,13 @@
           src = ./.;
 
           buildInputs = with pkgs; [
-            gcc
             glibc.dev 
             stdenv.cc.libc
             raylib
           ];
 
           nativeBuildInputs = with pkgs; [
+            gcc
             make
           ];
 
