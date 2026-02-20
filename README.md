@@ -2,9 +2,12 @@
 Dieses Softwareprojekt erlaubt die Visualisierung, Benchmarking und Vergleich von Sortieralgorithmen, vollständig in C umgesetzt mit GUI!
 
 # Verwendung
-Gehe in den source tree und führe folgenden Befehl im Terminal aus:
+Run the executable `MySorter` from the release or build your own from the C source code with the Makefile:
+
 ```
-make run
+cd ap-visual-sorting
+make 
+./MySorter
 ```
 # Hilfe
 - raylib beispiele:     https://www.raylib.com/examples.html
