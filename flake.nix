@@ -26,7 +26,6 @@
 
           nativeBuildInputs = with pkgs; [
             gcc
-            make
           ];
 
           buildPhase = ''
@@ -35,7 +34,7 @@
 
           installPhase = ''
             mkdir -p $out/bin
-            cp MySorter $out/bin/
+            cp MySorter $out/bin/ap-visual-sorting
           '';
 
           meta = with pkgs.lib; {
