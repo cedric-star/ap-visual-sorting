@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
     owner = "cedric-star";
     repo = "ap-visual-sorting";
     rev = "main";
-    hash = "sha256-1z9zrb2hkkgl5x71d1w88qchg66pznvxsarvgs4khlhqw0s7n8pp="; # wird berechnet
+    hash = "sha256-1s5p62z4058ahjz5gykqcjww8ad4dxz2jjssr2z4gs63f9cma2sm="; # wird berechnet
   };
 
   buildInputs = with pkgs; [
