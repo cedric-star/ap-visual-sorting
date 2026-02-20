@@ -91,7 +91,7 @@ void initAppState(AppState* state);
 void setAllDisctinctSortedAsc(int *p_nums, int max);
 void setRanNumsUnsorted(int *p_nums, int max);
 void setNumsBackwards(int *p_nums, int max);
-void shuffleNums(int *p_nums, int maxIndex);w
+void shuffleNums(int *p_nums, int maxIndex);
 void setSorted(int *p_nums, int maxIndex);
 
 #endif

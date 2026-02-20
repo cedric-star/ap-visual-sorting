@@ -11,7 +11,7 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    echo "gcc main.c -o MySorter -lraylib -lm && ./MySorter" &&
+    echo "./MySorter" &&
     echo ""
     echo "oder:"
     echo "make run"

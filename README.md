@@ -16,4 +16,7 @@ make run
 --> Raylib halt
 
 # Bilder
+<img src="example_images/Screenshot_Choose_Sorting_Algorithms.png">
+<img src="example_images/Screenshot_View_Sorting_Algorithms.png">
+<img src="example_images/Screenshot_View_Results.png">
 
